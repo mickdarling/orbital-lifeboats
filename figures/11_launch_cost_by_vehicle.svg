@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="360" viewBox="0 0 860 360">
+<rect width="860" height="360" fill="#fafafa"/>
+<line x1="181.0" y1="40.0" x2="181.0" y2="305.0" stroke="#eee" stroke-width="1"/>
+<text x="181.0" y="323.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">0</text>
+<line x1="289.2" y1="40.0" x2="289.2" y2="305.0" stroke="#eee" stroke-width="1"/>
+<text x="289.2" y="323.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">0.05</text>
+<line x1="397.4" y1="40.0" x2="397.4" y2="305.0" stroke="#eee" stroke-width="1"/>
+<text x="397.4" y="323.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">0.10</text>
+<line x1="505.6" y1="40.0" x2="505.6" y2="305.0" stroke="#eee" stroke-width="1"/>
+<text x="505.6" y="323.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">0.15</text>
+<line x1="613.8" y1="40.0" x2="613.8" y2="305.0" stroke="#eee" stroke-width="1"/>
+<text x="613.8" y="323.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">0.20</text>
+<line x1="722.0" y1="40.0" x2="722.0" y2="305.0" stroke="#eee" stroke-width="1"/>
+<text x="722.0" y="323.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">0.25</text>
+<rect x="181.0" y="250.0" width="525.9" height="43.7" fill="#2c7fb8" stroke="none" stroke-width="0"/>
+<text x="173.0" y="275.9" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">Falcon 9 (reusable)</text>
+<text x="711.9" y="275.9" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">$0.24B</text>
+<rect x="181.0" y="183.8" width="262.9" height="43.7" fill="#d95f02" stroke="none" stroke-width="0"/>
+<text x="173.0" y="209.6" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">Falcon Heavy (reusable)</text>
+<text x="448.9" y="209.6" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">$0.12B</text>
+<rect x="181.0" y="117.5" width="87.6" height="43.7" fill="#1b9e77" stroke="none" stroke-width="0"/>
+<text x="173.0" y="143.4" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">Starship (credible early)</text>
+<text x="273.6" y="143.4" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">$0.04B</text>
+<rect x="181.0" y="51.3" width="26.3" height="43.7" fill="#7570b3" stroke="none" stroke-width="0"/>
+<text x="173.0" y="77.1" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">Starship (aspirational)</text>
+<text x="212.3" y="77.1" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">$0.01B</text>
+<rect x="181.0" y="40.0" width="589.0" height="265.0" fill="none" stroke="#999" stroke-width="1"/>
+<text x="475.5" y="28.0" font-size="16" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="bold">Launch cost of the Phase-1 fleet (~81 t) by vehicle</text>
+<text x="475.5" y="344.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">launch cost ($B)</text>
+<text x="18.0" y="172.5" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal" transform="rotate(-90 18 172.5)"></text>
+</svg>
