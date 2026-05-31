@@ -205,5 +205,18 @@ Run `python3 napkin.py` for the live version. The punchlines it produces:
 
 ---
 
+## License
+
+Copyright © 2026 Mick Darling. Dual-licensed:
+
+- **Code** — the Python toolkit and build scripts — under the **MIT License**
+  ([`LICENSE`](LICENSE)).
+- **Writing & figures** — the notes, README prose, and diagrams — under
+  **Creative Commons Attribution 4.0 (CC BY 4.0)**
+  ([`LICENSE-CONTENT.md`](LICENSE-CONTENT.md)). Reuse freely with attribution:
+  *"Orbital Lifeboats" by Mick Darling, CC BY 4.0.*
+
+---
+
 *Status: sketchpad. Everything here is order-of-magnitude. Correct me, break the
 assumptions, push the numbers around.*
