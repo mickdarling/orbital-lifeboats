@@ -89,6 +89,17 @@ figure.fig figcaption{font-size:13.5px;color:var(--muted);margin-top:10px}
 .note-tag{display:inline-block;font-size:12px;color:#fff;background:var(--accent);
   border-radius:10px;padding:1px 9px;margin-right:8px;vertical-align:middle}
 @media(max-width:820px){nav.toc{display:none}main{padding:20px}}
+.topbar{display:flex;align-items:center;gap:18px;padding:11px 22px;
+  background:#0f172a;color:#fff;font-size:14px}
+.topbar a{color:#fff;text-decoration:none;opacity:.92}
+.topbar a:hover{opacity:1;text-decoration:underline}
+.topbar a.home{font-weight:600}
+.topbar .title{color:#9fb4c7;font-weight:600}
+.topbar .spacer{flex:1}
+footer.sitefoot{border-top:1px solid var(--line);padding:22px 24px;
+  text-align:center;color:var(--muted);font-size:13px;background:var(--panel)}
+footer.sitefoot a{color:var(--accent);text-decoration:none}
+footer.sitefoot a:hover{text-decoration:underline}
 """
 
 
@@ -127,6 +138,10 @@ def build():
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Orbital Lifeboats</title><style>{CSS}</style></head><body>
+<header class="topbar">
+<a class="home" href="https://www.mickdarling.com/">&larr; mickdarling.com</a>
+<span class="title">Orbital Lifeboats</span><span class="spacer"></span>
+<a href="https://github.com/mickdarling/orbital-lifeboats">GitHub</a></header>
 <div class="layout">
 <nav class="toc"><header class="hero"><h1>Orbital&nbsp;Lifeboats</h1></header>
 {''.join(toc)}</nav>
@@ -138,7 +153,15 @@ network — the WWII Channel rescue buoy, reimagined for spaceflight.</p></heade
 (pure stdlib). Edit <code>presets.py</code> and run
 <code>python3 generate_figures.py</code> to rebuild. Figures-only gallery:
 <code>figures/index.html</code>.</p>
-</main></div></body></html>
+</main></div>
+<footer class="sitefoot">
+&copy; 2026 <a href="https://www.mickdarling.com/">Mick Darling</a> &nbsp;·&nbsp;
+Code <a href="https://github.com/mickdarling/orbital-lifeboats/blob/main/LICENSE">MIT</a>
+&nbsp;·&nbsp; Writing &amp; figures
+<a href="https://github.com/mickdarling/orbital-lifeboats/blob/main/LICENSE-CONTENT.md">CC&nbsp;BY&nbsp;4.0</a>
+&nbsp;·&nbsp; <a href="https://github.com/mickdarling/orbital-lifeboats">source on GitHub</a>
+</footer>
+</body></html>
 """
     out = os.path.join(ROOT, "index.html")
     with open(out, "w") as f:
