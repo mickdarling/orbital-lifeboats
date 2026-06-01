@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Build a self-contained data page (index.html) for the solar-wind turbine, with
-every number pulled straight from turbine.py. Resolves the kW-vs-MW question by
-showing power explicitly as a function of the knobs that set it.
+Build the self-contained data page (index.html) for the solar-wind turbine.
+Every number comes from turbine.py; the page also runs test_turbine.py and shows
+the result, so you can see the physics is validated.
 
     python3 build_page.py
 """
@@ -16,127 +16,114 @@ import contextlib
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from orbital_lifeboats import mdsite          # noqa: E402
-import turbine as T                           # noqa: E402
+import turbine as T                            # noqa: E402
+import test_turbine                            # noqa: E402
 
 HERE = os.path.dirname(__file__)
-
-
-def kw(p):
-    return f"{p/1e6:.2f} MW" if p >= 1e6 else f"{p/1e3:.1f} kW"
+BUBBLES_KM = [25, 50, 100, 200, 400]
+P_FIXED = 2000.0
 
 
 def table(headers, rows):
     h = "".join(f"<th>{c}</th>" for c in headers)
-    body = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>"
-                   for r in rows)
+    body = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
     return f"<table><thead><tr>{h}</tr></thead><tbody>{body}</tbody></table>"
 
 
 def inline_svg(name):
     p = os.path.join(HERE, "figures", name)
-    if not os.path.exists(p):
-        return ""
-    return f'<div class="svgwrap">{open(p).read()}</div>'
+    return f'<div class="svgwrap">{open(p).read()}</div>' if os.path.exists(p) else ""
 
 
-def fig(name, caption):
-    return (f'<figure>{inline_svg(name)}'
-            f'<figcaption>{caption}</figcaption></figure>')
+def fig(name, cap):
+    return f'<figure>{inline_svg(name)}<figcaption>{cap}</figcaption></figure>'
 
 
 CSS = """
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,Helvetica,Arial,sans-serif;color:#1d2733;
-  background:#fff;line-height:1.55}
-.topbar{display:flex;align-items:center;gap:18px;padding:11px 22px;
-  background:#0f172a;color:#fff;font-size:14px}
-.topbar a{color:#fff;text-decoration:none;opacity:.92}.topbar a:hover{opacity:1}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,Helvetica,Arial,
+sans-serif;color:#1d2733;background:#fff;line-height:1.55}
+.topbar{display:flex;align-items:center;gap:18px;padding:11px 22px;background:#0f172a;
+color:#fff;font-size:14px}.topbar a{color:#fff;text-decoration:none;opacity:.92}
 .topbar .title{color:#9fb4c7;font-weight:600}.topbar .spacer{flex:1}
 main{max-width:900px;margin:0 auto;padding:28px 24px}
 h1{font-size:28px;margin:.2em 0}h2{font-size:21px;margin:1.4em 0 .4em;
-  border-top:1px solid #e3e8ee;padding-top:.8em}h3{margin:1em 0 .3em}
+border-top:1px solid #e3e8ee;padding-top:.8em}
 .tagline{color:#5b6b7b;font-size:16px}
 table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
-th,td{border:1px solid #e3e8ee;padding:6px 10px;text-align:left}
-th{background:#f7f9fb}
+th,td{border:1px solid #e3e8ee;padding:6px 10px;text-align:left}th{background:#f7f9fb}
 .callout{background:#eef6fb;border:1px solid #b9dcee;border-left:5px solid #2c7fb8;
-  border-radius:8px;padding:14px 18px;margin:1.2em 0}
-.callout b{color:#1c5a82}
-code{background:#f7f9fb;padding:1px 5px;border-radius:4px;
-  font:13px SFMono-Regular,Menlo,monospace}
-figure{margin:18px 0;border:1px solid #e3e8ee;border-radius:10px;padding:14px;
-  background:#f7f9fb}.svgwrap svg{width:100%;height:auto;display:block}
+border-radius:8px;padding:14px 18px;margin:1.2em 0}.callout b{color:#1c5a82}
+.tests{background:#eefaf0;border:1px solid #bfe6c9;border-left:5px solid #2e9e54;
+border-radius:8px;padding:10px 16px;margin:1em 0;font-size:14px}
+code{background:#f7f9fb;padding:1px 5px;border-radius:4px;font:13px SFMono-Regular,Menlo,monospace}
+figure{margin:18px 0;border:1px solid #e3e8ee;border-radius:10px;padding:14px;background:#f7f9fb}
+.svgwrap svg{width:100%;height:auto;display:block}
 figcaption{font-size:13px;color:#5b6b7b;margin-top:8px}
 pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:8px;overflow:auto;
-  font:12px SFMono-Regular,Menlo,monospace;line-height:1.4}
-.verdict{font-weight:600}
-footer{border-top:1px solid #e3e8ee;padding:22px 24px;text-align:center;
-  color:#5b6b7b;font-size:13px;background:#f7f9fb;margin-top:2em}
-footer a{color:#2c7fb8;text-decoration:none}
+font:12px SFMono-Regular,Menlo,monospace;line-height:1.4}
+footer{border-top:1px solid #e3e8ee;padding:22px 24px;text-align:center;color:#5b6b7b;
+font-size:13px;background:#f7f9fb;margin-top:2em}footer a{color:#2c7fb8;text-decoration:none}
 """
 
 
 def build():
-    t = T.Turbine()
-    rho = T.sw_mass_density(t.ref_au)
+    materials = T.MATERIALS
 
-    # --- knob 1: bubble size (the kW <-> MW resolver) ---
-    bubble_rows = []
-    for rk in (50, 150, 300, 500, 1000, 1500):
-        f = T.bubble_force(rk * 1000, t.ref_au)
-        p = T.CAPTURE * f * t.tip_speed_ms
-        bubble_rows.append((f"{rk} km", f"{f:.1f} N", kw(p)))
+    # extracted-power grid + net grid (plasma magnet, 1 AU)
+    def grid_rows(net):
+        rows = []
+        for m in materials:
+            vt = T.tip_speed_limit(m)
+            cells = [f"{m.name} ({vt/1000:.2f} km/s)"]
+            for bk in BUBBLES_KM:
+                s = T.Sail(bk * 1000, "plasma_magnet")
+                p = T.extracted_power(s.force(1.0), vt)
+                if net:
+                    p -= T.bottle_power(s.area(1.0), "superconducting", P_FIXED)
+                cells.append(("+" if net and p >= 0 else "") + T.kw(p))
+            rows.append(cells)
+        return rows
 
-    # --- knob 2: tip speed / material ---
-    mat_rows = []
-    for m in T.MATERIALS:
-        vmax = T.tip_speed_limit(m, 2.0)
-        p = T.CAPTURE * t.force() * vmax
-        mat_rows.append((m.name, f"{vmax/1000:.2f} km/s", kw(p)))
+    hdr = ["material (tip speed)"] + [f"{b} km" for b in BUBBLES_KM]
 
-    # --- distance: flat turbine vs PV ---
+    # distance: both models
+    vt_cf = T.tip_speed_limit(materials[2])
+    s_pm, s_di = T.Sail(50_000, "plasma_magnet"), T.Sail(50_000, "dipole")
     dist_rows = []
-    for r in (1, 5, 10, 20, 30):
-        pturb = t.mech_power()
-        ppv = T.pv_power(r, 1000)
-        win = "turbine" if pturb > ppv else "PV"
-        dist_rows.append((f"{r} AU", kw(pturb), kw(ppv), win))
+    for r in (1, 5, 10, 30):
+        dist_rows.append((f"{r} AU",
+            f"{s_pm.radius(r)/1000:.0f} km / {s_pm.force(r):.1f} N / "
+            f"{T.kw(T.extracted_power(s_pm.force(r), vt_cf))}",
+            f"{s_di.radius(r)/1000:.0f} km / {s_di.force(r):.2f} N / "
+            f"{T.kw(T.extracted_power(s_di.force(r), vt_cf))}"))
 
-    # --- self-powering balance ---
-    harvest_density = T.CAPTURE * T.CD * rho * T.V_SW**2 * t.tip_speed_ms
-    inj_density = 3000.0 / (math.pi * 7500.0**2)
-    p_fixed = 2000.0
-    breakeven = math.sqrt(p_fixed / (harvest_density * math.pi))
+    # self-powering
+    rho = T.sw_mass_density(1.0)
+    hd = 0.5 * T.CD * rho * T.V_SW**2 * vt_cf
+    idn = T.injection_density()
+    be = math.sqrt(P_FIXED / (hd * math.pi))
     self_rows = [
-        ("M2P2 (inject plasma; power scales with bubble)",
-         f"{inj_density*1e6:.1f} µW/m²",
-         f"{harvest_density*1e6:.2f} µW/m²",
-         f'<span class="verdict">NET NEGATIVE (~{inj_density/harvest_density:.0f}× short)</span>'),
-        ("Plasma magnet (superconducting; ~fixed power)",
-         f"~{p_fixed/1000:.0f} kW fixed",
-         "grows with bubble area",
-         f'<span class="verdict">NET POSITIVE above ~{breakeven/1000:.0f} km bubble</span>'),
+        ("M2P2 (inject plasma; cost ∝ bubble)", f"{idn*1e6:.1f} µW/m²",
+         f"{hd*1e6:.2f} µW/m²", f"NET NEGATIVE (~{idn/hd:.0f}× short)"),
+        ("Plasma magnet (superconducting; fixed)", f"~{P_FIXED/1000:.0f} kW",
+         "grows with bubble area", f"NET POSITIVE above ~{be/1000:.0f} km bubble"),
     ]
 
-    # --- value vs alternatives (external reference context) ---
-    alt_rows = [
-        ("Solar panels (1 AU)", "~12 m², tens of kg", "inner system only",
-         "Trivial near Sun; dies as 1/r²"),
-        ("Kilopower-class fission", "~1–1.5 t", "anywhere",
-         "Demonstrated; decade+; the real competitor"),
-        ("RTGs", "~2 t + ~200 kg Pu-238", "anywhere",
-         "Pu-238 supply makes kW-scale impossible"),
-        ("This turbine", "multi-t, km-scale spinning + cryo", "anywhere",
-         "Same kW — plus a continuous ~10 N drag"),
-    ]
+    # run the tests, capture result
+    tbuf = io.StringIO()
+    with contextlib.redirect_stdout(tbuf):
+        ok = test_turbine.run()
+    test_out = tbuf.getvalue()
+    n_pass = test_out.count("PASS")
+    test_banner = (f"✓ {n_pass} physics tests pass" if ok
+                   else "✗ TESTS FAILING")
 
-    # --- full raw model run ---
-    buf = io.StringIO()
-    with contextlib.redirect_stdout(buf):
+    # raw model run
+    mbuf = io.StringIO()
+    with contextlib.redirect_stdout(mbuf):
         T.main()
-    raw = buf.getvalue()
+    raw = mbuf.getvalue()
 
-    # --- README narrative (strip image lines; dashboard already shows figures) ---
     readme = open(os.path.join(HERE, "README.md")).read()
     readme = re.sub(r"!\[[^\]]*\]\([^)]*\)\s*", "", readme)
     narrative = mdsite.markdown_to_html(readme)
@@ -150,55 +137,45 @@ def build():
 <a href="../">Orbital Lifeboats</a></header>
 <main>
 <h1>Solar-Wind Turbine — what it actually produces</h1>
-<p class="tagline">Every number on this page is computed by
-<code>turbine.py</code>. Run <code>python3 build_page.py</code> to regenerate.</p>
+<p class="tagline">Every number is computed by <code>turbine.py</code> on one
+consistent physical model. <span class="tests" style="display:inline-block;padding:2px 8px">{test_banner}</span></p>
 
-<div class="callout"><b>Is it kilowatts or megawatts?</b> Both — and that's not a
-contradiction. Power = <code>capture × force × tip-speed</code>, and the force
-scales with the magnetic bubble's <i>area</i>. A small bubble makes kilowatts; a
-big one makes megawatts. The table below is the whole answer.</div>
+<div class="callout"><b>Is it kilowatts or megawatts?</b> Both — it's a <i>grid</i>,
+not a single number. Power = ½·force·tip-speed; force scales with the bubble's
+area, tip-speed with the cable material. Small bubble + weak cable → kW; big
+bubble + strong cable → MW. The tables below are the whole answer, and the
+distance behavior depends on which sail model you pick.</div>
 
-<h2>Knob 1 — bubble size (this resolves the kW-vs-MW confusion)</h2>
-<p>Tip speed fixed at 1 km/s, measured at 1 AU. Force ∝ bubble area, so power
-climbs from a few kW to multi-MW purely by inflating a bigger bubble.</p>
-{table(["bubble radius", "tip force", "mechanical power"], bubble_rows)}
-{fig("02_power_vs_bubble.svg", "Power vs bubble size — the single biggest lever.")}
+<h2>Extracted power — material × bubble size (plasma magnet, 1 AU)</h2>
+{table(hdr, grid_rows(net=False))}
+{fig("01_net_power_grid.svg", "NET power over the same grid (extracted − bottle).")}
 
-<h2>Knob 2 — tip speed (set by the cable material)</h2>
-<p>Power ∝ tip speed, but tip speed is capped by the spinning-tether limit
-√(2·specific-strength). Power shown for the 50 km design bubble at each material's
-ceiling.</p>
-{table(["cable material", "max tip speed", "power (50 km bubble)"], mat_rows)}
-{fig("03_material_tip_speed.svg", "The cable is the ceiling on tip speed, hence on power.")}
+<h2>NET power — extracted minus the ~2 kW superconducting bottle</h2>
+<p>Negative = the field costs more than the spin makes. This is the metric that
+matters.</p>
+{table(hdr, grid_rows(net=True))}
 
-<h2>Distance — output is FLAT, but only worth it far out</h2>
-<p>The bubble self-inflates as the wind thins, so the turbine's output is
-constant with distance (50 km bubble, 1 km/s tips). A 1000 m² solar array
-craters as 1/r². The turbine doesn't make more power far out — its competition
-just disappears.</p>
-{table(["distance", "turbine", "solar PV (1000 m²)", "winner"], dist_rows)}
-{fig("01_power_vs_distance.svg", "Flat turbine vs cratering PV; they cross near Saturn.")}
+<h2>With distance — two sail models (and the bubble is NOT fixed-size)</h2>
+<p>50 km bubble <i>at 1 AU</i>, carbon-fiber tips. Plasma-magnet bubble inflates
+with distance (force flat, power flat); rigid dipole's force falls as r^−4/3.</p>
+{table(["distance", "plasma magnet: R / F / P", "rigid dipole: R / F / P"], dist_rows)}
+{fig("02_power_vs_distance.svg", "Plasma magnet flat (bubble inflates) vs dipole falling vs PV cratering.")}
 
-<h2>Riding outbound — efficiency climbs, absolute power collapses</h2>
-<p>If it sails outbound, the relative wind drops toward the tip speed, so
-efficiency rises toward the drag optimum — but the available power falls faster.
-A power station wants to stay put (max relative wind).</p>
-{fig("04_outbound_tradeoff.svg", "Efficiency up, absolute power down, as you ride the wind out.")}
-
-<h2>Can the spin power its own bottles?</h2>
-<p>Not free energy (the wind pays), and ideal magnetic deflection does no work on
-the wind — so a perfect bottle costs ~0 to maintain. Whether it self-powers
-depends on the technology:</p>
+<h2>Can it power its own bottles?</h2>
+<p>Not free energy (wind pays); ideal magnetic deflection does no work, so a
+perfect bottle costs ~0 to maintain. Whether it self-powers depends on the tech:</p>
 {table(["bottle technology", "bottle power", "harvestable", "verdict"], self_rows)}
 
-<h2>Value vs other power sources (the honest reality check)</h2>
-<p>For a few kW this is wildly over-engineered. Its real value is propellantless
-<b>thrust</b> (it's a sail), with power as a bonus — or MW-scale power in the deep
-outer system where panels are dead and reactors are heavy. Turbine row is from
-the model; others are reference figures.</p>
-{table(["source", "mass for ~5 kW", "works", "notes"], alt_rows)}
+<h2>Riding outbound — efficiency up, absolute power down</h2>
+{fig("04_outbound_tradeoff.svg", "Sailing out: efficiency climbs toward λ=1/3, absolute power collapses as v_rel³.")}
 
-<h2>Full model run (raw output of <code>turbine.py</code>)</h2>
+<h2>Tip-speed ceiling by material</h2>
+{fig("03_material_tip_speed.svg", "The cable sets the tip-speed limit, hence one axis of the power grid.")}
+
+<h2>Physics tests (run on every build)</h2>
+<pre>{mdsite.html.escape(test_out)}</pre>
+
+<h2>Full model run (raw <code>turbine.py</code> output)</h2>
 <pre>{mdsite.html.escape(raw)}</pre>
 
 <h2>Narrative write-up</h2>

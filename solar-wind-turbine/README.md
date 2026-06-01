@@ -1,159 +1,131 @@
 # Solar-Wind Turbine
 
 *A mechanical windmill that rides — and harvests — the solar wind. Separate from
-the [Orbital Lifeboats](../README.md) project, but kept in the same repo because
-it could power a deep-system cache.*
+the [Orbital Lifeboats](../README.md) project, but in the same repo because it
+could power a deep-system cache.*
 
-This is a napkin-math model of an old idea (Mick's, dating to an email he sent
-Robert Winglee right after the **M2P2** press release ~2000): take a magnetic
-sail that the solar wind pushes on, put one on each end of long counter-rotating
-cables, and toggle them on and off so the rig **spins in place** — generating
-power from the wind without being blown out of its orbit.
+Origin: Mick's idea, from an email he sent Robert Winglee right after the **M2P2**
+press release (~2000) — magnetic sails on the ends of long counter-rotating
+cables, toggled on/off so the rig **spins in place**, driving a generator from the
+wind without being blown out of orbit.
 
-Run it: `python3 turbine.py` · figures: `python3 figures.py`
+> **This model was rebuilt** after the first pass mixed two incompatible
+> assumptions (a *fixed* bubble for the size sweep, a *self-inflating* one for the
+> "flat with distance" claim). The physics is now on one consistent chain and
+> **pinned down by tests** — run `python3 test_turbine.py`.
+
+- Model + tables: `python3 turbine.py`
+- Tests (scaling laws, energy limits): `python3 test_turbine.py`
+- Figures: `python3 figures.py` · Data page: `python3 build_page.py` → `index.html`
 
 ---
 
 ## The machine
 
-A **vertical-axis turbine** in solar orbit:
+Vertical-axis turbine in solar orbit: spin axis north–south, generator at the hub,
+long counter-rotating cable-arms tipped with switchable magnetic-sail "bottles."
+Fire the tips as a **force couple** (pure torque, ~zero net translation) so it
+spins up and generates without leaving orbit; toggle through each rotation to keep
+the couple driving the spin. Same rig also = a **sail**, an **ion-power source**,
+and a **1-g habitat** at the radius where ω²r = g.
 
-- Spin axis points north–south (perpendicular to the ecliptic); a **generator at
-  the central hub**.
-- Two (or more) long **counter-rotating cable-arms** lie in the orbital plane,
-  each tipped with a switchable **magnetic-sail "bottle"** (M2P2 / plasma-magnet
-  style) that the solar wind pushes on.
-- Fire the tip-sails as a **force couple** — opposite arms pushed in opposite
-  tangential directions. A couple is *pure torque with zero net translational
-  force*, so the rig spins up and drives the generator **without** drifting out of
-  orbit. Toggle the bottles on/off through each rotation to keep the couple
-  driving the spin, switching to the inbound tips as the arms swing past.
+## The one consistent chain
 
-The same structure is, at once, a **generator**, a **sail** (fire asymmetrically
-for net thrust), an **ion-drive power source**, and a **1-g habitat** (at the
-radius where ω²r = g).
+```
+knobs:   bubble radius at 1 AU (R1)  +  cable material (→ max tip speed)
+         +  operating tip speed v_tip  +  sail model  +  bottle type
+derived: at distance r → bubble radius R(r) and force F(r) (per sail model)
+         → extracted power (drag turbine) → net = extracted − bottle power
+```
 
-## The physics, in five lines
+- **Extracted power** = ½·F·v_tip·(1−v_tip/v_wind)² — a drag rotor on the sail force.
+- **Tip speed** is capped by the **cable**: v_tip ≤ √(2·specific-strength) (the
+  spinning-tether limit) — ~0.5 km/s steel, ~1.9 km/s carbon fiber, ~6.7 km/s CNT.
+- **Force** = Cd·(ram pressure)·(bubble area), and the bubble area is a *derived*
+  quantity that depends on distance and which sail model you pick.
 
-1. **Extracted power = torque × ω = F_tip × v_tip** (it's a drag-type turbine).
-2. **Tip speed is capped by the cable, not the wind.** A spinning tether fails
-   when hoop stress ½·ρ·v_tip² exceeds its strength, so
-   **v_tip_max = √(2 · specific-strength)** — the classic spinning-tether limit
-   (~0.5 km/s steel, ~1.9 km/s carbon fiber, ~6.7 km/s theoretical CNT at SF 2).
-3. **Force scales with bubble area**, and the bubble can be as big as you like —
-   so you "buy" power with size: ~5 kW from a 50 km bubble, ~5 MW from a 1500 km
-   one (at 1 km/s tips).
-4. **The bubble self-scales** — it inflates as the wind thins — so in the
-   plasma-magnet "constant-force" regime, **power is ~flat with distance from the
-   Sun**, while solar panels fall as 1/r².
-5. **Longer cables** reach a given tip speed at lower spin rate → easier sail
-   toggling and lower per-tip load, paid for in cable mass.
+## Power is a grid, not a number
 
-## What the model says
+This is the thing that caused the earlier confusion. Output isn't "5 kW" or "5 MW"
+— it's a surface over **bubble size × tip speed**:
 
-![Power vs distance](figures/png/01_power_vs_distance.png)
+![Net power grid](figures/png/01_net_power_grid.png)
 
-The headline: the turbine's output is flat with distance, so it **overtakes a
-1000 m² solar array around ~9 AU (near Saturn)** and by Neptune it isn't close.
-That's the case for using it to power anything in the outer system.
+**Net power (kW) at 1 AU, plasma magnet, ~2 kW superconducting bottle:**
 
-![Power vs bubble size](figures/png/02_power_vs_bubble.png)
+| tip speed (material) | 25 km | 50 km | 100 km | 200 km | 400 km |
+|---|---|---|---|---|---|
+| 0.5 km/s (steel) | −1 | +1 | +9 | +41 | +169 |
+| 1.6 km/s (Kevlar) | +0 | +6 | +31 | +130 | +525 |
+| 1.9 km/s (carbon fiber) | +1 | +8 | +37 | +155 | +628 |
+| 6.7 km/s (CNT) | +6 | +32 | +134 | +542 | +2173 |
 
-Power is `capture × F × v_tip`, and `F` scales with bubble area — so megawatts are
-a question of how big a magnetic bubble you're willing to inflate.
+So it spans **sub-kW to multi-MW**. Both numbers I'd quoted were real — they were
+just different cells of this table. Small bubble + weak cable = kW; big bubble +
+strong cable = MW.
 
-![Tip-speed limit by material](figures/png/03_material_tip_speed.png)
+## With distance: it depends on the sail model (and the bubble is *not* fixed-size)
 
-The cable is the ceiling. Tip speed (and therefore power, for a given force) is
-bounded by the material's specific strength.
+![Power vs distance](figures/png/02_power_vs_distance.png)
 
-## Riding outbound: the efficiency/power trade
+For a 50 km bubble **at 1 AU**, carbon-fiber tips:
+
+| r (AU) | plasma magnet: R, F, P | rigid dipole: R, F, P |
+|---|---|---|
+| 1 | 50 km, 10.5 N, **9.9 kW** | 50 km, 10.5 N, 9.9 kW |
+| 10 | **500 km**, 10.5 N, **9.9 kW** | 108 km, 0.49 N, 0.46 kW |
+| 30 | **1500 km**, 10.5 N, **9.9 kW** | 155 km, 0.11 N, 0.10 kW |
+
+- **Plasma magnet** (wind-inflated): the bubble *grows* (50→1500 km), force stays
+  constant, power is flat. This is the real Wind-Rider property — but note the
+  bubble is **not** 50 km out there; quoting "50 km everywhere" was the bug.
+- **Rigid dipole** (fixed coil): R ∝ r^(1/3), force ∝ r^(−4/3), power **falls**.
+
+Either way it never makes *more* power far out; the flat plasma-magnet case just
+*holds* while solar PV craters as 1/r² — so it only wins where PV has died.
+
+## Net, and can it power its own bottles?
+
+Net = extracted − bottle. The make-or-break question (not free energy — the wind
+pays; and ideal magnetic deflection does no work, so a perfect bottle costs ~0 to
+maintain):
+
+- **M2P2 (inject plasma; cost scales with bubble):** harvest ~0.7 µW/m² vs
+  injection ~17 µW/m² → ~25× short, **net negative**. Can't self-power.
+- **Plasma magnet (superconducting; ~fixed power):** harvest grows with bubble
+  area while the bill stays flat → **net positive above a ~30 km bubble.** The
+  self-inflation that makes the sail work is what lets it power its own field.
+
+## Riding outbound, and on a cycler
 
 ![Outbound tradeoff](figures/png/04_outbound_tradeoff.png)
 
-A subtlety (h/t the design's author): if the rig is *moving outbound*, the wind it
-works against is the **relative** wind, `v_rel = v_wind·(1 − f)`. As the craft
-speeds up toward wind speed, your fixed material-capped tip speed becomes a bigger
-fraction of `v_rel` — the ratio `λ = v_tip/v_rel` climbs toward the drag-turbine
-optimum of **1/3**, and efficiency `Cp` rises ~60× (0.0025 → 0.148).
+If it sails outbound, the *relative* wind drops toward the tip speed, so drag-
+turbine efficiency climbs toward its λ=1/3 optimum — but absolute power falls as
+v_rel³. **A power station wants max relative wind → stay put.** On an Earth–Mars
+cycler the ~30 km/s orbital motion barely dents the 400 km/s wind (±1.4%), so
+power is essentially the at-rest value across the leg. And extracting it **acts as
+drag** — momentum theory requires a downwind (anti-sunward) reaction force; that
+force is the magsail thrust, present whether or not you spin the rotor.
 
-The catch: available power falls as `v_rel³` and extracted power as ~`v_rel²`, so
-the *absolute* output collapses even as efficiency peaks. Net rule:
+## Honest value (the reality check)
 
-- **A power station wants maximum relative wind → stay put** (orbit), where
-  extracted power (~`v_rel²`) is greatest, and just accept low efficiency.
-- The efficient-turbine regime is the **bonus mode of a wind-rider near terminal
-  speed**: once it's coasting at ~wind speed (no thrust left), it can still
-  scavenge the faint residual wind at near-optimal efficiency to power itself.
+For a few kW this is wildly over-engineered — a few kg of solar panels beat it near
+the Sun, a ~1-tonne Kilopower reactor beats it anywhere. Its real value is
+propellantless **thrust** (it's a sail), with power as a bonus — or **MW-scale**
+power in the deep outer system where panels are dead and reactors are heavy. The
+power case only opens at MW, far out, not at kW anywhere.
 
-## On an Earth–Mars cycler (and why power = drag)
+## Tip-speed ceiling by material
 
-Put it on a cycler and the craft's ~30 km/s orbital motion (peak radial only
-~5–6 km/s) barely dents the 400 km/s wind — inbound it's ~+1.4%, outbound ~−1.4%.
-So you're in the **full-relative-wind regime the whole cycle**, and extractable
-power is ~flat at **~2.3–5.3 kW** for the 50 km bubble (1/r² worst-case at Mars up
-to constant-force; scale with bubble size).
-
-**Does extracting power act as drag? Yes — and it's mandatory, not incidental.**
-Momentum theory: you can't take energy from a flow without pushing back on it.
-Slowing the wind to harvest it produces a net **anti-sunward (downwind) force** —
-the magsail thrust itself. On the inbound leg that directly opposes your sunward
-fall: real drag. Two consequences:
-
-- The drag is there **whether or not you spin the rotor** — it's the price of
-  being a magnetic sail at all. Because `v_tip` (~1 km/s) ≪ wind (400 km/s),
-  harvesting the kW barely changes the force, so the *power is nearly free*
-  relative to the orbital perturbation you're already paying.
-- That perturbation is **large for a light craft** (~29 km/s over an inbound leg
-  for an 8 t craft; ~2 km/s for 100 t). So a big power bubble doesn't *ride* a
-  cycler ballistically — it **sails**. Either run a small bubble to coast the
-  cycle, or accept that you're an active sail and steer with the bottles
-  (propellant-free). Same knob does power, station-keeping, and orbit changes.
-
-## Can the spin power its own bottles? (the make-or-break question)
-
-Not a free-energy question — the **wind** is the source, so net-positive is
-allowed. And ideal magnetic deflection does *no work* on the wind (the magnetic
-force is ⊥ to velocity), so a perfect bottle costs ~0 to *maintain*; its real
-power draw is pure loss. Whether the spin covers it depends entirely on the tech:
-
-- **M2P2 (continuous plasma injection):** bottle power scales with bubble size.
-  Harvestable density (~0.67 µW/m²) is ~**25× less** than the injection cost
-  (~17 µW/m²) — you'd need 25 km/s tips (past any material) to break even. **It
-  can't self-power.** The slow tips are the killer.
-- **Plasma magnet (superconducting coils, bubble inflated by the wind itself):**
-  maintenance power is ~**fixed** (coil + cryocooler), while harvest grows with
-  bubble *area*. So there's a break-even bubble size (~30–50 km for a ~2 kW coil)
-  above which it goes **net positive** — at the 50 km design point, ~5.3 kW
-  generated vs ~2 kW bottle.
-
-So your instinct was right for the naive version, but the **plasma magnet's
-self-inflation is exactly what flips it positive**: the same trick that lets the
-sail work (the wind grows the bubble for free) is what lets it power its own
-field — you scale the harvest without scaling the power bill. (The loss numbers
-are rough; a real device-power model is the key thing still missing.)
-
-## Honest limits
-
-- **You skim only a tiny fraction of the wind's energy flux.** Because the tips
-  crawl (≤ ~km/s) next to a 400 km/s wind, a 50 km bubble intercepts ~2 MW of
-  kinetic flux but the rig extracts only ~5 kW of it (~0.25%). The *available*
-  power is enormous and flat with distance; the *mechanically extractable* power
-  is `F × v_tip`. You raise it by growing the bubble (force) or the tip speed
-  (material), not for free.
-- **Toggle speed is the operational crux** — can a plasma bottle inflate/collapse
-  faster than a quarter-rotation? Long cables help (they slow the rotation).
-- **Spin-up momentum** is real: at steady state the **generator load** is the
-  brake that holds the tip speed at its design value; the material limit is the
-  hard ceiling above it.
-- **Order-of-magnitude only.** Constant-force self-scaling is idealized; the real
-  scaling is model-dependent, and the bottle/coil mass and power draw aren't yet
-  in the budget.
+![Material tip-speed limits](figures/png/03_material_tip_speed.png)
 
 ## Files
 
 | File | What |
 |------|------|
-| `turbine.py` | The model + a full printed analysis (`python3 turbine.py`) |
-| `figures.py` | Generates the SVG figures (reuses the sibling package's SVG plotter) |
-| `figures/` | SVG figures (+ `png/` renders) |
+| `turbine.py` | The model + printed tables (`python3 turbine.py`) |
+| `test_turbine.py` | Physics tests — scaling laws, energy limits, drag curve |
+| `figures.py` | SVG figures (reuses the sibling package's plotter) |
+| `build_page.py` | Builds `index.html` (data straight from the model) |
+| `figures/` | SVGs (+ `png/`) |
