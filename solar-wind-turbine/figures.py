@@ -43,6 +43,30 @@ def f_power_vs_bubble():
         value_fmt=lambda v: f"{v/1000:.1f} MW" if v >= 1000 else f"{v:.0f} kW")
 
 
+def f_outbound():
+    import math
+    t = T.Turbine()
+    area = math.pi * t.bubble_radius_m ** 2
+    rho = T.sw_mass_density(t.ref_au)
+    cpmax = 4 * T.CD / 27
+    fs = [i / 200 for i in range(0, 199)]              # 0 .. 0.995
+    cp_n, p_vals = [], []
+    for f in fs:
+        vr = T.relative_wind(f)
+        cp = T.drag_cp(t.tip_speed_ms, vr)
+        cp_n.append(cp / cpmax)
+        p_vals.append(cp * 0.5 * rho * vr ** 3 * area)
+    p0 = p_vals[0]
+    p_n = [p / p0 for p in p_vals]
+    svgplot.line_chart(
+        os.path.join(OUT, "04_outbound_tradeoff.svg"),
+        [{"name": "turbine efficiency (Cp / Cp_max)", "xs": fs, "ys": cp_n},
+         {"name": "extracted power (P / P_max)", "xs": fs, "ys": p_n}],
+        title="Riding outbound: efficiency climbs, absolute power collapses",
+        xlabel="craft speed as fraction of wind speed",
+        ylabel="fraction of maximum", ylim=(0, 1.05))
+
+
 def f_material_limits():
     labels = [m.name for m in T.MATERIALS]
     vals = [T.tip_speed_limit(m, 2.0) / 1000 for m in T.MATERIALS]
@@ -54,7 +78,8 @@ def f_material_limits():
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    for fn in (f_power_vs_distance, f_power_vs_bubble, f_material_limits):
+    for fn in (f_power_vs_distance, f_power_vs_bubble, f_material_limits,
+               f_outbound):
         fn()
         print(f"  wrote {fn.__name__}")
     print(f"figures in {OUT}/")

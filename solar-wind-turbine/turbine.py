@@ -80,6 +80,20 @@ def bubble_radius_for_force(force_n, r_au):
     return math.sqrt(area / math.pi)
 
 
+# --- drag-turbine power coefficient ----------------------------------------
+def drag_cp(tip_speed, rel_wind, cd=CD):
+    """Power coefficient of a drag-type rotor: Cp = Cd (1-lambda)^2 lambda,
+    lambda = v_tip / v_rel. Peaks at lambda=1/3 (Cp = 4Cd/27 ~ 0.148). Zero once
+    the tip outruns the wind (lambda>=1)."""
+    lam = tip_speed / rel_wind
+    return cd * (1 - lam) ** 2 * lam if 0 <= lam < 1 else 0.0
+
+
+def relative_wind(craft_speed_fraction):
+    """Relative wind seen by a craft moving outbound at fraction f of wind speed."""
+    return V_SW * (1 - craft_speed_fraction)
+
+
 # --- materials (specific strength sets the tip-speed limit) ----------------
 @dataclass(frozen=True)
 class Material:
@@ -261,6 +275,36 @@ def main():
     print(f"        power is better spent on the habitat, instruments, and the bottles.")
     print(f"  SPIN-GRAVITY: 1 g occurs at {t.radius_1g():.0f} m from the hub -- put a")
     print(f"     small always-on bubble + habitat module there for free 1-g living.")
+
+    hr("7.  RIDING OUTBOUND: relative wind drops toward the tip speed")
+    print("  As the craft sails outbound at fraction f of the wind speed, the wind")
+    print("  it WORKS AGAINST is only v_rel = v_wind*(1-f). Your fixed (material-")
+    print("  capped) tip speed becomes a bigger fraction of that -> the drag-turbine")
+    print("  efficiency Cp climbs toward its lambda=1/3 optimum. BUT the available")
+    print("  power falls as v_rel^3, and extracted power ~ v_rel^2 for a fixed tip.\n")
+    area = math.pi * t.bubble_radius_m ** 2
+    rho = sw_mass_density(t.ref_au)
+    f_opt = 1 - 3 * t.tip_speed_ms / V_SW                  # lambda = 1/3
+    print(f"  {'craft speed':>12} {'v_rel (km/s)':>13} {'lambda':>8} {'Cp':>8} "
+          f"{'extracted':>12}")
+    for f in (0.0, 0.5, 0.9, 0.99, f_opt):
+        vr = relative_wind(f)
+        lam = t.tip_speed_ms / vr
+        cp = drag_cp(t.tip_speed_ms, vr)
+        avail = 0.5 * rho * vr ** 3 * area
+        ext = cp * avail
+        tag = "  <- lambda=1/3 (peak Cp)" if abs(f - f_opt) < 1e-9 else ""
+        estr = f"{ext/1000:.1f} kW" if ext >= 1000 else f"{ext:.2f} W"
+        print(f"  {f*100:>10.2f}% {vr/1000:>13.1f} {lam:>8.3f} {cp:>8.4f} "
+              f"{estr:>12}{tag}")
+    print(f"\n  So your observation is exactly right: outbound, v_tip -> v_rel and the")
+    print(f"  turbine becomes EFFICIENT (Cp 0.0025 -> 0.148, ~60x). The catch: the")
+    print(f"  wind it's sipping has almost no power left, so ABSOLUTE output collapses.")
+    print(f"  Upshot: a POWER STATION wants MAX relative wind -> stay put (orbit), where")
+    print(f"  extracted power ~ v_rel^2 is greatest. The efficient-turbine regime is")
+    print(f"  the bonus mode of a wind-RIDER near terminal speed: once it has stopped")
+    print(f"  accelerating (no thrust left), it can still scavenge that faint residual")
+    print(f"  wind at near-optimal efficiency to keep its own lights on.")
 
     hr("BOTTOM LINE")
     print("""

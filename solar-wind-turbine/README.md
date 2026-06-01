@@ -67,6 +67,25 @@ a question of how big a magnetic bubble you're willing to inflate.
 The cable is the ceiling. Tip speed (and therefore power, for a given force) is
 bounded by the material's specific strength.
 
+## Riding outbound: the efficiency/power trade
+
+![Outbound tradeoff](figures/png/04_outbound_tradeoff.png)
+
+A subtlety (h/t the design's author): if the rig is *moving outbound*, the wind it
+works against is the **relative** wind, `v_rel = v_wind·(1 − f)`. As the craft
+speeds up toward wind speed, your fixed material-capped tip speed becomes a bigger
+fraction of `v_rel` — the ratio `λ = v_tip/v_rel` climbs toward the drag-turbine
+optimum of **1/3**, and efficiency `Cp` rises ~60× (0.0025 → 0.148).
+
+The catch: available power falls as `v_rel³` and extracted power as ~`v_rel²`, so
+the *absolute* output collapses even as efficiency peaks. Net rule:
+
+- **A power station wants maximum relative wind → stay put** (orbit), where
+  extracted power (~`v_rel²`) is greatest, and just accept low efficiency.
+- The efficient-turbine regime is the **bonus mode of a wind-rider near terminal
+  speed**: once it's coasting at ~wind speed (no thrust left), it can still
+  scavenge the faint residual wind at near-optimal efficiency to power itself.
+
 ## Honest limits
 
 - **You skim only a tiny fraction of the wind's energy flux.** Because the tips
