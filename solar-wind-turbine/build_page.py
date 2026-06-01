@@ -85,7 +85,7 @@ def build():
             rows.append(cells)
         return rows
 
-    hdr = ["material (tip speed)"] + [f"{b} km" for b in BUBBLES_KM]
+    hdr = ["tip speed (material)  ＼  bubble radius"] + [f"R = {b} km" for b in BUBBLES_KM]
 
     # distance: both models
     vt_cf = T.tip_speed_limit(materials[2])
@@ -164,14 +164,21 @@ unit is tens to a few hundred kW, and a several-hundred-km bubble reaches the MW
 range. It's a <b>sail first</b>, with power as the bonus. And power isn't one
 number — it's a grid over bubble size × tip speed, below.</p>
 
-<h2>Extracted power — material × bubble size (plasma magnet, 1 AU)</h2>
-{table(hdr, grid_rows(net=False))}
-{fig("01_net_power_grid.svg", "NET power over the same grid (extracted − bottle).")}
+<div class="callout"><b>Two field technologies — only one is net-positive.</b>
+The magnetic bottle can be a resistive / plasma-injected coil (M2P2-style) or a
+<b>superconducting</b> coil (or wind-inflated plasma magnet). Only the
+superconducting one nets out positive — a resistive coil spends more power holding
+the field than the spin makes (its field bill grows as R⁶, see further down).
+<b>Everything below is the superconducting case, and the metric is NET power
+(extracted minus the bottle).</b></div>
 
-<h2>NET power — extracted minus the ~2 kW superconducting bottle</h2>
-<p>Negative = the field costs more than the spin makes. This is the metric that
-matters.</p>
+<h2>NET power — bubble size × tip speed (superconducting)</h2>
+<p>The <b>columns are bubble radius</b> (the size of the magnetic bubble) at 1 AU;
+the <b>rows are tip speed</b>, set by the cable material. Cells are net power
+(extracted minus the ~2 kW superconducting bottle). This is the whole "what does
+it make" answer — sub-kW to multi-MW.</p>
 {table(hdr, grid_rows(net=True))}
+{fig("01_net_power_grid.svg", "Net power (kW): x-axis = bubble radius, y-axis = tip speed (material).")}
 
 <h2>With distance — two sail models (and the bubble is NOT fixed-size)</h2>
 <p>50 km bubble <i>at 1 AU</i>, carbon-fiber tips. Plasma-magnet bubble inflates
@@ -193,17 +200,13 @@ craters. A big bubble only pays if the field is held ~free — a
 Then bubble size is a coil-design/<i>mass</i> choice, not a power drain.</p>
 {fig("05_field_power_tradeoff.svg", "Resistive coil craters as you scale the bubble (field bill ∝ R⁶); superconducting scales as R². Big bubbles need a free-field coil.")}
 
-<h2>Is there an optimal bubble size?</h2>
-<p>For pure extraction, <b>no</b> — power grows with bubble area, so bigger is
-always more. An optimum appears only when the <i>cost</i> of size grows faster
-than the harvest. With a <b>resistive</b> coil the field bill scales as R⁶, so net
-power peaks at a small bubble (~8 km at 1 AU) then craters — but that peak is tiny
-(~0.2 kW), which is exactly why resistive is a dead end. The optimal radius is the
-<b>same at every distance</b>; only its height falls (as 1/r²). With a
-<b>superconducting</b> coil (fixed field cost) there is <b>no interior optimum</b>
-— net grows as R² until cable structure and coil mass cap it, so the practical
-"best size" is the biggest bubble you can build.</p>
-{fig("06_optimal_size.svg", "Resistive coil: net peaks at ~8 km then craters (field bill ∝ R⁶). Same optimum radius at any distance; height ∝ 1/r². Superconducting has no such peak.")}
+<h2>How big? (no sweet spot — bigger is better, up to structure)</h2>
+<p>For the superconducting case there is <b>no interior optimum</b>: net power
+grows with bubble area (∝ R²) from break-even (~22 km at 1 AU for a 2 kW coil)
+upward, bounded only by how big a structure you can build (cable strength, coil
+mass). So the design levers are the <b>break-even floor</b> (minimum useful size)
+and the <b>structural ceiling</b> — not a peak in between.</p>
+{fig("06_superconducting_net.svg", "Superconducting net power vs bubble size: crosses break-even ~22 km, then climbs ∝ R². No interior optimum — size is bounded by structure, not a sweet spot.")}
 
 <h2>Riding outbound — efficiency up, absolute power down</h2>
 {fig("04_outbound_tradeoff.svg", "Sailing out: efficiency climbs toward λ=1/3, absolute power collapses as v_rel³.")}

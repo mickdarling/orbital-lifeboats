@@ -58,8 +58,20 @@ unit is tens to a few hundred kW, and a several-hundred-km bubble reaches the MW
 range. It's a <b>sail first</b>, with power as the bonus. And power isn't one
 number — it's a grid over bubble size × tip speed, below.</p>
 
-<h2>Extracted power — material × bubble size (plasma magnet, 1 AU)</h2>
-<table><thead><tr><th>material (tip speed)</th><th>25 km</th><th>50 km</th><th>100 km</th><th>200 km</th><th>400 km</th></tr></thead><tbody><tr><td>Steel (HS) (0.51 km/s)</td><td>0.7 kW</td><td>2.7 kW</td><td>10.6 kW</td><td>42.5 kW</td><td>169.9 kW</td></tr><tr><td>Kevlar (1.58 km/s)</td><td>2.1 kW</td><td>8.2 kW</td><td>33.0 kW</td><td>131.9 kW</td><td>527.5 kW</td></tr><tr><td>Carbon fiber (1.89 km/s)</td><td>2.5 kW</td><td>9.8 kW</td><td>39.3 kW</td><td>157.0 kW</td><td>628.2 kW</td></tr><tr><td>Zylon (PBO) (1.93 km/s)</td><td>2.5 kW</td><td>10.0 kW</td><td>40.1 kW</td><td>160.6 kW</td><td>642.2 kW</td></tr><tr><td>CNT (theoretical) (6.69 km/s)</td><td>8.5 kW</td><td>34.0 kW</td><td>136.0 kW</td><td>543.9 kW</td><td>2.18 MW</td></tr></tbody></table>
+<div class="callout"><b>Two field technologies — only one is net-positive.</b>
+The magnetic bottle can be a resistive / plasma-injected coil (M2P2-style) or a
+<b>superconducting</b> coil (or wind-inflated plasma magnet). Only the
+superconducting one nets out positive — a resistive coil spends more power holding
+the field than the spin makes (its field bill grows as R⁶, see further down).
+<b>Everything below is the superconducting case, and the metric is NET power
+(extracted minus the bottle).</b></div>
+
+<h2>NET power — bubble size × tip speed (superconducting)</h2>
+<p>The <b>columns are bubble radius</b> (the size of the magnetic bubble) at 1 AU;
+the <b>rows are tip speed</b>, set by the cable material. Cells are net power
+(extracted minus the ~2 kW superconducting bottle). This is the whole "what does
+it make" answer — sub-kW to multi-MW.</p>
+<table><thead><tr><th>tip speed (material)  ＼  bubble radius</th><th>R = 25 km</th><th>R = 50 km</th><th>R = 100 km</th><th>R = 200 km</th><th>R = 400 km</th></tr></thead><tbody><tr><td>Steel (HS) (0.51 km/s)</td><td>-1.3 kW</td><td>+0.7 kW</td><td>+8.6 kW</td><td>+40.5 kW</td><td>+167.9 kW</td></tr><tr><td>Kevlar (1.58 km/s)</td><td>+0.1 kW</td><td>+6.2 kW</td><td>+31.0 kW</td><td>+129.9 kW</td><td>+525.5 kW</td></tr><tr><td>Carbon fiber (1.89 km/s)</td><td>+0.5 kW</td><td>+7.8 kW</td><td>+37.3 kW</td><td>+155.0 kW</td><td>+626.2 kW</td></tr><tr><td>Zylon (PBO) (1.93 km/s)</td><td>+0.5 kW</td><td>+8.0 kW</td><td>+38.1 kW</td><td>+158.6 kW</td><td>+640.2 kW</td></tr><tr><td>CNT (theoretical) (6.69 km/s)</td><td>+6.5 kW</td><td>+32.0 kW</td><td>+134.0 kW</td><td>+541.9 kW</td><td>+2.17 MW</td></tr></tbody></table>
 <figure><div class="svgwrap"><svg xmlns="http://www.w3.org/2000/svg" width="890" height="520" viewBox="0 0 890 520">
 <rect width="890" height="520" fill="#fafafa"/>
 <rect x="70.0" y="366.0" width="136.5" height="84.5" fill="#440154" stroke="none" stroke-width="0"/>
@@ -172,12 +184,7 @@ number — it's a grid over bubble size × tip speed, below.</p>
 <text x="410.0" y="504.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">bubble radius at 1 AU (km)</text>
 <text x="18.0" y="240.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal" transform="rotate(-90 18 240.0)">tip speed (km/s) — by material</text>
 </svg>
-</div><figcaption>NET power over the same grid (extracted − bottle).</figcaption></figure>
-
-<h2>NET power — extracted minus the ~2 kW superconducting bottle</h2>
-<p>Negative = the field costs more than the spin makes. This is the metric that
-matters.</p>
-<table><thead><tr><th>material (tip speed)</th><th>25 km</th><th>50 km</th><th>100 km</th><th>200 km</th><th>400 km</th></tr></thead><tbody><tr><td>Steel (HS) (0.51 km/s)</td><td>-1.3 kW</td><td>+0.7 kW</td><td>+8.6 kW</td><td>+40.5 kW</td><td>+167.9 kW</td></tr><tr><td>Kevlar (1.58 km/s)</td><td>+0.1 kW</td><td>+6.2 kW</td><td>+31.0 kW</td><td>+129.9 kW</td><td>+525.5 kW</td></tr><tr><td>Carbon fiber (1.89 km/s)</td><td>+0.5 kW</td><td>+7.8 kW</td><td>+37.3 kW</td><td>+155.0 kW</td><td>+626.2 kW</td></tr><tr><td>Zylon (PBO) (1.93 km/s)</td><td>+0.5 kW</td><td>+8.0 kW</td><td>+38.1 kW</td><td>+158.6 kW</td><td>+640.2 kW</td></tr><tr><td>CNT (theoretical) (6.69 km/s)</td><td>+6.5 kW</td><td>+32.0 kW</td><td>+134.0 kW</td><td>+541.9 kW</td><td>+2.17 MW</td></tr></tbody></table>
+</div><figcaption>Net power (kW): x-axis = bubble radius, y-axis = tip speed (material).</figcaption></figure>
 
 <h2>With distance — two sail models (and the bubble is NOT fixed-size)</h2>
 <p>50 km bubble <i>at 1 AU</i>, carbon-fiber tips. Plasma-magnet bubble inflates
@@ -295,82 +302,88 @@ Then bubble size is a coil-design/<i>mass</i> choice, not a power drain.</p>
 </svg>
 </div><figcaption>Resistive coil craters as you scale the bubble (field bill ∝ R⁶); superconducting scales as R². Big bubbles need a free-field coil.</figcaption></figure>
 
-<h2>Is there an optimal bubble size?</h2>
-<p>For pure extraction, <b>no</b> — power grows with bubble area, so bigger is
-always more. An optimum appears only when the <i>cost</i> of size grows faster
-than the harvest. With a <b>resistive</b> coil the field bill scales as R⁶, so net
-power peaks at a small bubble (~8 km at 1 AU) then craters — but that peak is tiny
-(~0.2 kW), which is exactly why resistive is a dead end. The optimal radius is the
-<b>same at every distance</b>; only its height falls (as 1/r²). With a
-<b>superconducting</b> coil (fixed field cost) there is <b>no interior optimum</b>
-— net grows as R² until cable structure and coil mass cap it, so the practical
-"best size" is the biggest bubble you can build.</p>
+<h2>How big? (no sweet spot — bigger is better, up to structure)</h2>
+<p>For the superconducting case there is <b>no interior optimum</b>: net power
+grows with bubble area (∝ R²) from break-even (~22 km at 1 AU for a 2 kW coil)
+upward, bounded only by how big a structure you can build (cable strength, coil
+mass). So the design levers are the <b>break-even floor</b> (minimum useful size)
+and the <b>structural ceiling</b> — not a peak in between.</p>
 <figure><div class="svgwrap"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="520" viewBox="0 0 820 520">
 <rect width="820" height="520" fill="#fafafa"/>
 <rect x="70.0" y="60.0" width="720.0" height="390.0" fill="#fff" stroke="#ccc" stroke-width="1"/>
-<line x1="135.5" y1="60.0" x2="135.5" y2="450.0" stroke="#eee" stroke-width="1"/>
-<line x1="135.5" y1="450.0" x2="135.5" y2="455.0" stroke="#888" stroke-width="1"/>
-<text x="135.5" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">4.0</text>
-<line x1="266.4" y1="60.0" x2="266.4" y2="450.0" stroke="#eee" stroke-width="1"/>
-<line x1="266.4" y1="450.0" x2="266.4" y2="455.0" stroke="#888" stroke-width="1"/>
-<text x="266.4" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">6.0</text>
-<line x1="397.3" y1="60.0" x2="397.3" y2="450.0" stroke="#eee" stroke-width="1"/>
-<line x1="397.3" y1="450.0" x2="397.3" y2="455.0" stroke="#888" stroke-width="1"/>
-<text x="397.3" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">8.0</text>
-<line x1="528.2" y1="60.0" x2="528.2" y2="450.0" stroke="#eee" stroke-width="1"/>
-<line x1="528.2" y1="450.0" x2="528.2" y2="455.0" stroke="#888" stroke-width="1"/>
-<text x="528.2" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">10</text>
-<line x1="659.1" y1="60.0" x2="659.1" y2="450.0" stroke="#eee" stroke-width="1"/>
-<line x1="659.1" y1="450.0" x2="659.1" y2="455.0" stroke="#888" stroke-width="1"/>
-<text x="659.1" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">12</text>
+<line x1="169.3" y1="60.0" x2="169.3" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="169.3" y1="450.0" x2="169.3" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="169.3" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">50</text>
+<line x1="293.4" y1="60.0" x2="293.4" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="293.4" y1="450.0" x2="293.4" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="293.4" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">100</text>
+<line x1="417.6" y1="60.0" x2="417.6" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="417.6" y1="450.0" x2="417.6" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="417.6" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">150</text>
+<line x1="541.7" y1="60.0" x2="541.7" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="541.7" y1="450.0" x2="541.7" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="541.7" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">200</text>
+<line x1="665.9" y1="60.0" x2="665.9" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="665.9" y1="450.0" x2="665.9" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="665.9" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">250</text>
 <line x1="790.0" y1="60.0" x2="790.0" y2="450.0" stroke="#eee" stroke-width="1"/>
 <line x1="790.0" y1="450.0" x2="790.0" y2="455.0" stroke="#888" stroke-width="1"/>
-<text x="790.0" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">14</text>
-<line x1="70.0" y1="450.0" x2="790.0" y2="450.0" stroke="#eee" stroke-width="1"/>
-<line x1="65.0" y1="450.0" x2="70.0" y2="450.0" stroke="#888" stroke-width="1"/>
-<text x="61.0" y="454.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">-1,500</text>
-<line x1="70.0" y1="341.7" x2="790.0" y2="341.7" stroke="#eee" stroke-width="1"/>
-<line x1="65.0" y1="341.7" x2="70.0" y2="341.7" stroke="#888" stroke-width="1"/>
-<text x="61.0" y="345.7" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">-1,000</text>
-<line x1="70.0" y1="233.3" x2="790.0" y2="233.3" stroke="#eee" stroke-width="1"/>
-<line x1="65.0" y1="233.3" x2="70.0" y2="233.3" stroke="#888" stroke-width="1"/>
-<text x="61.0" y="237.3" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">-500</text>
-<line x1="70.0" y1="125.0" x2="790.0" y2="125.0" stroke="#eee" stroke-width="1"/>
-<line x1="65.0" y1="125.0" x2="70.0" y2="125.0" stroke="#888" stroke-width="1"/>
-<text x="61.0" y="129.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">0</text>
-<line x1="70.0" y1="125.0" x2="790.0" y2="125.0" stroke="#888" stroke-width="1.5" stroke-dasharray="5 4"/>
-<text x="76.0" y="121.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#888" font-weight="normal">break-even</text>
-<line x1="424.5" y1="60.0" x2="424.5" y2="450.0" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5 4"/>
-<text x="428.5" y="72.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#c0392b" font-weight="normal">optimum ~8 km</text>
-<polyline points="70.0,117.4 102.7,114.7 135.5,111.6 168.2,108.2 200.9,104.6 233.6,100.8 266.4,97.0 299.1,93.4 331.8,90.0 364.5,87.3 397.3,85.5 430.0,85.1 462.7,86.4 495.5,90.2 528.2,97.0 560.9,107.7 593.6,123.2 626.4,144.5 659.1,172.9 691.8,209.8 724.5,256.7 757.3,315.4 790.0,387.9" fill="none" stroke="#2c7fb8" stroke-width="2.2"/>
-<circle cx="70.0" cy="117.4" r="2.6" fill="#2c7fb8"/>
-<circle cx="102.7" cy="114.7" r="2.6" fill="#2c7fb8"/>
-<circle cx="135.5" cy="111.6" r="2.6" fill="#2c7fb8"/>
-<circle cx="168.2" cy="108.2" r="2.6" fill="#2c7fb8"/>
-<circle cx="200.9" cy="104.6" r="2.6" fill="#2c7fb8"/>
-<circle cx="233.6" cy="100.8" r="2.6" fill="#2c7fb8"/>
-<circle cx="266.4" cy="97.0" r="2.6" fill="#2c7fb8"/>
-<circle cx="299.1" cy="93.4" r="2.6" fill="#2c7fb8"/>
-<circle cx="331.8" cy="90.0" r="2.6" fill="#2c7fb8"/>
-<circle cx="364.5" cy="87.3" r="2.6" fill="#2c7fb8"/>
-<circle cx="397.3" cy="85.5" r="2.6" fill="#2c7fb8"/>
-<circle cx="430.0" cy="85.1" r="2.6" fill="#2c7fb8"/>
-<circle cx="462.7" cy="86.4" r="2.6" fill="#2c7fb8"/>
-<circle cx="495.5" cy="90.2" r="2.6" fill="#2c7fb8"/>
-<circle cx="528.2" cy="97.0" r="2.6" fill="#2c7fb8"/>
-<circle cx="560.9" cy="107.7" r="2.6" fill="#2c7fb8"/>
-<circle cx="593.6" cy="123.2" r="2.6" fill="#2c7fb8"/>
-<circle cx="626.4" cy="144.5" r="2.6" fill="#2c7fb8"/>
-<circle cx="659.1" cy="172.9" r="2.6" fill="#2c7fb8"/>
-<circle cx="691.8" cy="209.8" r="2.6" fill="#2c7fb8"/>
-<circle cx="724.5" cy="256.7" r="2.6" fill="#2c7fb8"/>
-<circle cx="757.3" cy="315.4" r="2.6" fill="#2c7fb8"/>
-<circle cx="790.0" cy="387.9" r="2.6" fill="#2c7fb8"/>
-<text x="430.0" y="48.0" font-size="16" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="bold">Optimal bubble size (resistive coil): net peaks, then craters</text>
+<text x="790.0" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">300</text>
+<line x1="70.0" y1="431.4" x2="790.0" y2="431.4" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="431.4" x2="70.0" y2="431.4" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="435.4" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">0</text>
+<line x1="70.0" y1="338.6" x2="790.0" y2="338.6" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="338.6" x2="70.0" y2="338.6" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="342.6" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">100</text>
+<line x1="70.0" y1="245.7" x2="790.0" y2="245.7" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="245.7" x2="70.0" y2="245.7" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="249.7" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">200</text>
+<line x1="70.0" y1="152.9" x2="790.0" y2="152.9" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="152.9" x2="70.0" y2="152.9" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="156.9" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">300</text>
+<line x1="70.0" y1="60.0" x2="790.0" y2="60.0" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="60.0" x2="70.0" y2="60.0" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="64.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">400</text>
+<line x1="70.0" y1="431.4" x2="790.0" y2="431.4" stroke="#888" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="76.0" y="427.4" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#888" font-weight="normal"></text>
+<line x1="100.9" y1="60.0" x2="100.9" y2="450.0" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="104.9" y="72.0" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#c0392b" font-weight="normal">break-even ~22 km</text>
+<polyline points="70.0,432.9 94.8,431.8 119.7,430.0 144.5,427.5 169.3,424.2 194.1,420.2 219.0,415.4 243.8,410.0 268.6,403.8 293.4,396.8 318.3,389.2 343.1,380.8 367.9,371.7 392.8,361.8 417.6,351.3 442.4,340.0 467.2,327.9 492.1,315.2 516.9,301.7 541.7,287.5 566.6,272.5 591.4,256.8 616.2,240.4 641.0,223.3 665.9,205.4 690.7,186.8 715.5,167.5 740.3,147.5 765.2,126.7 790.0,105.2" fill="none" stroke="#2c7fb8" stroke-width="2.2"/>
+<circle cx="70.0" cy="432.9" r="2.6" fill="#2c7fb8"/>
+<circle cx="94.8" cy="431.8" r="2.6" fill="#2c7fb8"/>
+<circle cx="119.7" cy="430.0" r="2.6" fill="#2c7fb8"/>
+<circle cx="144.5" cy="427.5" r="2.6" fill="#2c7fb8"/>
+<circle cx="169.3" cy="424.2" r="2.6" fill="#2c7fb8"/>
+<circle cx="194.1" cy="420.2" r="2.6" fill="#2c7fb8"/>
+<circle cx="219.0" cy="415.4" r="2.6" fill="#2c7fb8"/>
+<circle cx="243.8" cy="410.0" r="2.6" fill="#2c7fb8"/>
+<circle cx="268.6" cy="403.8" r="2.6" fill="#2c7fb8"/>
+<circle cx="293.4" cy="396.8" r="2.6" fill="#2c7fb8"/>
+<circle cx="318.3" cy="389.2" r="2.6" fill="#2c7fb8"/>
+<circle cx="343.1" cy="380.8" r="2.6" fill="#2c7fb8"/>
+<circle cx="367.9" cy="371.7" r="2.6" fill="#2c7fb8"/>
+<circle cx="392.8" cy="361.8" r="2.6" fill="#2c7fb8"/>
+<circle cx="417.6" cy="351.3" r="2.6" fill="#2c7fb8"/>
+<circle cx="442.4" cy="340.0" r="2.6" fill="#2c7fb8"/>
+<circle cx="467.2" cy="327.9" r="2.6" fill="#2c7fb8"/>
+<circle cx="492.1" cy="315.2" r="2.6" fill="#2c7fb8"/>
+<circle cx="516.9" cy="301.7" r="2.6" fill="#2c7fb8"/>
+<circle cx="541.7" cy="287.5" r="2.6" fill="#2c7fb8"/>
+<circle cx="566.6" cy="272.5" r="2.6" fill="#2c7fb8"/>
+<circle cx="591.4" cy="256.8" r="2.6" fill="#2c7fb8"/>
+<circle cx="616.2" cy="240.4" r="2.6" fill="#2c7fb8"/>
+<circle cx="641.0" cy="223.3" r="2.6" fill="#2c7fb8"/>
+<circle cx="665.9" cy="205.4" r="2.6" fill="#2c7fb8"/>
+<circle cx="690.7" cy="186.8" r="2.6" fill="#2c7fb8"/>
+<circle cx="715.5" cy="167.5" r="2.6" fill="#2c7fb8"/>
+<circle cx="740.3" cy="147.5" r="2.6" fill="#2c7fb8"/>
+<circle cx="765.2" cy="126.7" r="2.6" fill="#2c7fb8"/>
+<circle cx="790.0" cy="105.2" r="2.6" fill="#2c7fb8"/>
+<text x="430.0" y="48.0" font-size="16" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="bold">Net power vs bubble size (superconducting): bigger is better</text>
 <text x="430.0" y="504.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">bubble radius at 1 AU (km)</text>
-<text x="18.0" y="255.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal" transform="rotate(-90 18 255.0)">net power (W)</text>
+<text x="18.0" y="255.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal" transform="rotate(-90 18 255.0)">net power (kW)</text>
 </svg>
-</div><figcaption>Resistive coil: net peaks at ~8 km then craters (field bill ∝ R⁶). Same optimum radius at any distance; height ∝ 1/r². Superconducting has no such peak.</figcaption></figure>
+</div><figcaption>Superconducting net power vs bubble size: crosses break-even ~22 km, then climbs ∝ R². No interior optimum — size is bounded by structure, not a sweet spot.</figcaption></figure>
 
 <h2>Riding outbound — efficiency up, absolute power down</h2>
 <figure><div class="svgwrap"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="520" viewBox="0 0 820 520">
@@ -598,21 +611,21 @@ Run the model:  python3 turbine.py      Validate the physics:  python3 test_turb
   stronger (heavier) coil, not more watts.
 
 ==========================================================================
-8.  IS THERE AN OPTIMAL BUBBLE SIZE?
+8.  HOW BIG?  (superconducting has no sweet spot -- bigger is better)
 ==========================================================================
-  Pure extraction: NO -- power ∝ area, so bigger is always more. An
-  optimum appears only when the COST of size grows faster than the harvest.
-  With a RESISTIVE coil (field bill ∝ R^6) net peaks then craters:
+  For the only net-positive technology (superconducting), there is NO
+  interior optimum: net power grows with bubble area (∝ R^2) from break-
+  even upward. The levers are the break-even FLOOR and the structural
+  CEILING, not a peak between. Carbon-fiber tips, 1 AU, ~2 kW bottle:
 
-    resistive @  1 AU: optimal R ~  8.4 km, net_max ~ 184 W
-    resistive @  3 AU: optimal R ~  8.4 km, net_max ~ 20 W
-    resistive @ 10 AU: optimal R ~  8.4 km, net_max ~ 2 W
+    R =    22 km -&gt; net -0.0 kW  &lt;- break-even
+    R =    50 km -&gt; net 7.8 kW
+    R =   100 km -&gt; net 37.3 kW
+    R =   200 km -&gt; net 155.0 kW
+    R =   400 km -&gt; net 626.2 kW
 
-  -&gt; SAME optimal radius at every distance; peak height falls as 1/r^2,
-     and it&#x27;s tiny -- which is the real lesson: resistive is a dead end.
-  For a SUPERCONDUCTING coil (fixed field cost) there is NO interior
-  optimum -- net grows as R^2 until cable structure / coil mass cap it.
-  So &#x27;best size&#x27; = the biggest bubble you can structurally build.
+  (The only case WITH an interior optimum is a resistive coil -- a tiny,
+  net-LOSING ~8 km peak -- which is exactly why we don&#x27;t use it.)
 
 ==========================================================================
 BOTTOM LINE
@@ -663,8 +676,8 @@ derived: at distance r → bubble radius R(r) and force F(r) (per sail model)
 <ul><li><strong>M2P2 (inject plasma; cost scales with bubble):</strong> harvest ~0.7 µW/m² vs injection ~17 µW/m² → ~25× short, <strong>net negative</strong>. Can&#x27;t self-power.</li><li><strong>Plasma magnet (superconducting; ~fixed power):</strong> harvest grows with bubble area while the bill stays flat → <strong>net positive above a ~30 km bubble.</strong> The self-inflation that makes the sail work is what lets it power its own field.</li></ul>
 <h2>Buying a bigger bubble with field power</h2>
 <p>You can inflate the bubble by dumping power into the coil — even close to the Sun against the denser wind. But bubble radius grows only as the <strong>6th root of power</strong> (R ∝ P^1/6), so a <strong>resistive</strong> coil&#x27;s field bill explodes as R⁶ and net power craters (64× the power for 2× the bubble). A big bubble only pays if the field is held ~free — a <strong>superconducting</strong> coil (no ongoing power) or the wind-inflated plasma magnet. Then bubble size is a coil-design / <strong>mass</strong> choice, not a power drain, and you can build a big bubble at any distance — the denser inner-system wind just wants a stronger (heavier) coil, not more watts.</p>
-<h2>Is there an optimal bubble size?</h2>
-<p>For pure extraction, no — power grows with bubble area, so bigger is always more. An optimum appears only when the <em>cost</em> of size grows faster than the harvest. A <strong>resistive</strong> coil&#x27;s field bill ∝ R⁶ gives a sharp peak at a small bubble (~8 km at 1 AU, ~0.2 kW); the optimum radius is the <strong>same at every distance</strong> with height ∝ 1/r² — which mainly shows resistive is a dead end. A <strong>superconducting</strong> coil (fixed field cost) has <strong>no interior optimum</strong> — net grows as R² until cable structure and coil mass cap it, so &quot;best size&quot; = the biggest bubble you can build.</p>
+<h2>How big? (no sweet spot — bigger is better)</h2>
+<p><strong>Two field technologies exist, but only the superconducting one is net-positive</strong> (a resistive coil&#x27;s field bill grows as R⁶ and loses) — so this is the superconducting case. There is <strong>no interior optimum</strong>: net power grows with bubble area (∝ R²) from break-even (~22 km at 1 AU for a ~2 kW coil) upward, bounded only by how big a structure you can build (cable strength, coil mass). The design levers are the <strong>break-even floor</strong> and the <strong>structural ceiling</strong>, not a peak between them.</p>
 <h2>Riding outbound, and on a cycler</h2>
 <p>If it sails outbound, the <em>relative</em> wind drops toward the tip speed, so drag- turbine efficiency climbs toward its λ=1/3 optimum — but absolute power falls as v_rel³. <strong>A power station wants max relative wind → stay put.</strong> On an Earth–Mars cycler the ~30 km/s orbital motion barely dents the 400 km/s wind (±1.4%), so power is essentially the at-rest value across the leg. And extracting it <strong>acts as drag</strong> — momentum theory requires a downwind (anti-sunward) reaction force; that force is the magsail thrust, present whether or not you spin the rotor.</p>
 <h2>Honest value (the reality check)</h2>

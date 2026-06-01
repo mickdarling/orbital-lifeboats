@@ -125,17 +125,17 @@ plasma magnet. Then bubble size is a coil-design / **mass** choice, not a power
 drain, and you can build a big bubble at any distance — the denser inner-system
 wind just wants a stronger (heavier) coil, not more watts.
 
-## Is there an optimal bubble size?
+## How big? (no sweet spot — bigger is better)
 
-For pure extraction, no — power grows with bubble area, so bigger is always more.
-An optimum appears only when the *cost* of size grows faster than the harvest. A
-**resistive** coil's field bill ∝ R⁶ gives a sharp peak at a small bubble (~8 km
-at 1 AU, ~0.2 kW); the optimum radius is the **same at every distance** with
-height ∝ 1/r² — which mainly shows resistive is a dead end. A **superconducting**
-coil (fixed field cost) has **no interior optimum** — net grows as R² until cable
-structure and coil mass cap it, so "best size" = the biggest bubble you can build.
+**Two field technologies exist, but only the superconducting one is net-positive**
+(a resistive coil's field bill grows as R⁶ and loses) — so this is the
+superconducting case. There is **no interior optimum**: net power grows with
+bubble area (∝ R²) from break-even (~22 km at 1 AU for a ~2 kW coil) upward,
+bounded only by how big a structure you can build (cable strength, coil mass). The
+design levers are the **break-even floor** and the **structural ceiling**, not a
+peak between them.
 
-![Optimal size](figures/png/06_optimal_size.png)
+![Superconducting net power vs bubble size](figures/png/06_superconducting_net.png)
 
 ## Riding outbound, and on a cycler
 

@@ -275,22 +275,19 @@ def main():
     print("  and you CAN build a big bubble close in; the denser wind just wants a")
     print("  stronger (heavier) coil, not more watts.")
 
-    hr("8.  IS THERE AN OPTIMAL BUBBLE SIZE?")
-    print("  Pure extraction: NO -- power ∝ area, so bigger is always more. An")
-    print("  optimum appears only when the COST of size grows faster than the harvest.")
-    print("  With a RESISTIVE coil (field bill ∝ R^6) net peaks then craters:\n")
+    hr("8.  HOW BIG?  (superconducting has no sweet spot -- bigger is better)")
+    print("  For the only net-positive technology (superconducting), there is NO")
+    print("  interior optimum: net power grows with bubble area (∝ R^2) from break-")
+    print("  even upward. The levers are the break-even FLOOR and the structural")
+    print("  CEILING, not a peak between. Carbon-fiber tips, 1 AU, ~2 kW bottle:\n")
     vt = tip_speed_limit(MATERIALS[2])
-    for r in (1, 3, 10):
-        ropt = optimal_radius_resistive(r, vt)
-        F = CD * ram_pressure(r) * math.pi * ropt ** 2
-        netmax = extracted_power(F, vt) - field_power_for_radius(ropt, r)
-        print(f"    resistive @ {r:>2} AU: optimal R ~ {ropt/1000:4.1f} km, "
-              f"net_max ~ {netmax:.0f} W")
-    print("\n  -> SAME optimal radius at every distance; peak height falls as 1/r^2,")
-    print("     and it's tiny -- which is the real lesson: resistive is a dead end.")
-    print("  For a SUPERCONDUCTING coil (fixed field cost) there is NO interior")
-    print("  optimum -- net grows as R^2 until cable structure / coil mass cap it.")
-    print("  So 'best size' = the biggest bubble you can structurally build.")
+    be = math.sqrt(4000.0 / (ram_pressure(1.0) * math.pi * vt))
+    for rk in (be / 1000, 50, 100, 200, 400):
+        net = extracted_power(CD * ram_pressure(1.0) * math.pi * (rk*1000)**2, vt) - 2000
+        tag = "  <- break-even" if abs(net) < 200 else ""
+        print(f"    R = {rk:>5.0f} km -> net {kw(net)}{tag}")
+    print("\n  (The only case WITH an interior optimum is a resistive coil -- a tiny,")
+    print("  net-LOSING ~8 km peak -- which is exactly why we don't use it.)")
 
     hr("BOTTOM LINE")
     print("""
