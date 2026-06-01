@@ -102,6 +102,7 @@ more.
 | `orbital_lifeboats/` | The reusable toolkit (pure stdlib): physics, reachability, boiloff, failure taxonomy, fleet sizing, SVG plotting. Edit `presets.py` to plug in values. |
 | `generate_figures.py` | Generates the 11-figure SVG suite, the `figures/index.html` gallery, and the integrated `index.html`. Run it: `python3 generate_figures.py` |
 | `build_site.py` | Builds the integrated single-page site (`index.html`) — docs + diagrams woven together, self-contained (stdlib Markdown→HTML in `orbital_lifeboats/mdsite.py`). |
+| `solar-wind-turbine/` | A *separate* side-concept (own folder): a magnetic-sail "windmill" that harvests the solar wind for power that stays flat with distance from the Sun. Could power a deep-system cache. See its [README](solar-wind-turbine/README.md). |
 | `notes/01-the-core-inversion.md` | Why "swim to the buoy" mostly fails in space, and the two regimes |
 | `notes/02-where-buoys-work.md` | The node-by-node tour: LEO → cislunar → Mars → outer system |
 | `notes/03-what-you-can-keep.md` | The storage problem: boiloff, what survives passively vs. needs power |

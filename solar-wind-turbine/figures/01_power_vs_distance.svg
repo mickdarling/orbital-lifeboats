@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="520" viewBox="0 0 820 520">
+<rect width="820" height="520" fill="#fafafa"/>
+<rect x="70.0" y="60.0" width="720.0" height="390.0" fill="#fff" stroke="#ccc" stroke-width="1"/>
+<line x1="169.3" y1="60.0" x2="169.3" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="169.3" y1="450.0" x2="169.3" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="169.3" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">5.0</text>
+<line x1="293.4" y1="60.0" x2="293.4" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="293.4" y1="450.0" x2="293.4" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="293.4" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">10</text>
+<line x1="417.6" y1="60.0" x2="417.6" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="417.6" y1="450.0" x2="417.6" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="417.6" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">15</text>
+<line x1="541.7" y1="60.0" x2="541.7" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="541.7" y1="450.0" x2="541.7" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="541.7" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">20</text>
+<line x1="665.9" y1="60.0" x2="665.9" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="665.9" y1="450.0" x2="665.9" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="665.9" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">25</text>
+<line x1="790.0" y1="60.0" x2="790.0" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="790.0" y1="450.0" x2="790.0" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="790.0" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">30</text>
+<line x1="70.0" y1="450.0" x2="790.0" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="450.0" x2="70.0" y2="450.0" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="454.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">0.10</text>
+<line x1="70.0" y1="346.8" x2="790.0" y2="346.8" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="346.8" x2="70.0" y2="346.8" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="350.8" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">1.0</text>
+<line x1="70.0" y1="243.5" x2="790.0" y2="243.5" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="243.5" x2="70.0" y2="243.5" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="247.5" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">10</text>
+<line x1="70.0" y1="140.3" x2="790.0" y2="140.3" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="140.3" x2="70.0" y2="140.3" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="144.3" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">100</text>
+<polyline points="70.0,272.4 82.4,272.4 94.8,272.4 107.2,272.4 119.7,272.4 132.1,272.4 144.5,272.4 156.9,272.4 169.3,272.4 181.7,272.4 194.1,272.4 206.6,272.4 219.0,272.4 231.4,272.4 243.8,272.4 256.2,272.4 268.6,272.4 281.0,272.4 293.4,272.4 305.9,272.4 318.3,272.4 330.7,272.4 343.1,272.4 355.5,272.4 367.9,272.4 380.3,272.4 392.8,272.4 405.2,272.4 417.6,272.4 430.0,272.4 442.4,272.4 454.8,272.4 467.2,272.4 479.7,272.4 492.1,272.4 504.5,272.4 516.9,272.4 529.3,272.4 541.7,272.4 554.1,272.4 566.6,272.4 579.0,272.4 591.4,272.4 603.8,272.4 616.2,272.4 628.6,272.4 641.0,272.4 653.4,272.4 665.9,272.4 678.3,272.4 690.7,272.4 703.1,272.4 715.5,272.4 727.9,272.4 740.3,272.4 752.8,272.4 765.2,272.4 777.6,272.4 790.0,272.4" fill="none" stroke="#2c7fb8" stroke-width="2.2"/>
+<polyline points="70.0,77.3 82.4,113.6 94.8,139.4 107.2,159.4 119.7,175.8 132.1,189.6 144.5,201.6 156.9,212.1 169.3,221.6 181.7,230.1 194.1,237.9 206.6,245.1 219.0,251.7 231.4,257.9 243.8,263.7 256.2,269.1 268.6,274.3 281.0,279.1 293.4,283.7 305.9,288.1 318.3,292.3 330.7,296.2 343.1,300.1 355.5,303.7 367.9,307.2 380.3,310.6 392.8,313.9 405.2,317.0 417.6,320.1 430.0,323.0 442.4,325.8 454.8,328.6 467.2,331.3 479.7,333.9 492.1,336.4 504.5,338.9 516.9,341.3 529.3,343.6 541.7,345.9 554.1,348.1 566.6,350.2 579.0,352.3 591.4,354.4 603.8,356.4 616.2,358.4 628.6,360.3 641.0,362.2 653.4,364.0 665.9,365.9 678.3,367.6 690.7,369.4 703.1,371.1 715.5,372.8 727.9,374.4 740.3,376.0 752.8,377.6 765.2,379.2 777.6,380.7 790.0,382.2" fill="none" stroke="#d95f02" stroke-width="2.2"/>
+<text x="430.0" y="48.0" font-size="16" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="bold">Power vs distance: turbine stays flat, PV craters</text>
+<text x="430.0" y="504.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">distance from Sun (AU)</text>
+<text x="18.0" y="255.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal" transform="rotate(-90 18 255.0)">power (kW)</text>
+<rect x="632.0" y="58.0" width="158.0" height="44.0" fill="#ffffffcc" stroke="#ddd" stroke-width="1"/>
+<line x1="640.0" y1="72.0" x2="662.0" y2="72.0" stroke="#2c7fb8" stroke-width="3"/>
+<text x="668.0" y="76.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">solar-wind turbine (const. force)</text>
+<line x1="640.0" y1="90.0" x2="662.0" y2="90.0" stroke="#d95f02" stroke-width="3"/>
+<text x="668.0" y="94.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">solar PV (1000 m², 30%)</text>
+</svg>
