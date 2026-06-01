@@ -41,6 +41,7 @@ from dataclasses import dataclass
 # --- constants -------------------------------------------------------------
 MP = 1.6726e-27          # proton mass, kg
 AU = 1.495979e11         # m
+GM_SUN = 1.32712e20      # m^3/s^2
 G0 = 9.80665             # m/s^2
 SOLAR_CONST_1AU = 1361.0 # W/m^2 (for the PV comparison)
 YEAR = 3.156e7           # s
@@ -305,6 +306,57 @@ def main():
     print(f"  the bonus mode of a wind-RIDER near terminal speed: once it has stopped")
     print(f"  accelerating (no thrust left), it can still scavenge that faint residual")
     print(f"  wind at near-optimal efficiency to keep its own lights on.")
+
+    hr("8.  ON AN EARTH-MARS CYCLER: power, and the mandatory drag")
+    peri, apo = 1.0, 1.524
+    a_au = (peri + apo) / 2
+    a_m = a_au * AU
+    def vis_viva_sun(r_au):
+        return math.sqrt(GM_SUN * (2 / (r_au * AU) - 1 / a_m))
+    vp, va = vis_viva_sun(peri), vis_viva_sun(apo)
+    # max radial speed ~ on the leg; estimate from energy/momentum (order km/s)
+    L = peri * AU * vp
+    r_mid = a_au
+    v_mid = vis_viva_sun(r_mid)
+    v_tan_mid = L / (r_mid * AU)
+    v_rad_mid = math.sqrt(max(v_mid**2 - v_tan_mid**2, 0))
+    print(f"  Cycler ellipse {peri}-{apo} AU: v_peri {vp/1000:.1f} km/s, "
+          f"v_apo {va/1000:.1f} km/s, peak radial ~{v_rad_mid/1000:.1f} km/s.")
+    print(f"  Solar wind is {V_SW/1000:.0f} km/s; the craft's ~{v_rad_mid/1000:.0f} km/s "
+          f"inbound barely dents it:")
+    print(f"     inbound relative wind ~ {(V_SW+v_rad_mid)/1000:.1f} km/s "
+          f"(+{v_rad_mid/V_SW*100:.1f}%), outbound ~ {(V_SW-v_rad_mid)/1000:.1f} km/s.")
+    print(f"  => You're in the FULL-relative-wind regime everywhere on the cycle, so:")
+    p_cf = t.mech_power() / 1000                                  # constant-force
+    p_apo = CAPTURE * (t.force() / apo**2) * t.tip_speed_ms / 1000  # 1/r^2 at apo
+    print(f"     extractable power ~ {p_apo:.1f}-{p_cf:.1f} kW "
+          f"(1/r^2 worst-case at Mars .. constant-force), ~flat across the leg.")
+
+    hr("    ...AND YES, IT ACTS AS DRAG (it has to)")
+    F = t.force()
+    for mass in (8000, 100_000):
+        acc = F / mass
+        half_leg = math.pi * math.sqrt(a_m**3 / GM_SUN)            # half-period
+        dv = acc * half_leg
+        print(f"  craft {mass/1000:.0f} t: sail force {F:.1f} N -> a={acc:.1e} m/s^2 "
+              f"-> ~{dv/1000:.0f} km/s over the {half_leg/3.156e7:.2f}-yr inbound leg")
+    print("""
+  Momentum theory is brutal here: you CANNOT take energy from a flow without
+  pushing back on it. Extracting power means slowing wind particles, and that
+  reaction is a net ANTI-SUNWARD (downwind) force -- the magsail thrust itself.
+  On the inbound leg that force directly opposes your sunward fall: real drag,
+  exactly as expected. Two consequences:
+
+  * The drag is there whether or not you spin the rotor -- it's the price of
+    being a magnetic sail at all. Since v_tip (1 km/s) << wind (400 km/s),
+    harvesting the kW barely changes the force, so the POWER is nearly free
+    relative to the orbital perturbation you're already paying.
+  * That perturbation is LARGE for a light craft (tens of km/s over a leg) --
+    so a big power bubble doesn't 'ride' a cycler ballistically, it SAILS. You
+    either run a small bubble to coast the cycle, or accept that you're now an
+    active sail and steer the trajectory with the bottles (propellant-free).
+    Same knob: dial the bubbles for power, station-keeping, or orbit changes.
+""")
 
     hr("BOTTOM LINE")
     print("""

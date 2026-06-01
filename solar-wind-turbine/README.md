@@ -86,6 +86,30 @@ the *absolute* output collapses even as efficiency peaks. Net rule:
   speed**: once it's coasting at ~wind speed (no thrust left), it can still
   scavenge the faint residual wind at near-optimal efficiency to power itself.
 
+## On an Earth–Mars cycler (and why power = drag)
+
+Put it on a cycler and the craft's ~30 km/s orbital motion (peak radial only
+~5–6 km/s) barely dents the 400 km/s wind — inbound it's ~+1.4%, outbound ~−1.4%.
+So you're in the **full-relative-wind regime the whole cycle**, and extractable
+power is ~flat at **~2.3–5.3 kW** for the 50 km bubble (1/r² worst-case at Mars up
+to constant-force; scale with bubble size).
+
+**Does extracting power act as drag? Yes — and it's mandatory, not incidental.**
+Momentum theory: you can't take energy from a flow without pushing back on it.
+Slowing the wind to harvest it produces a net **anti-sunward (downwind) force** —
+the magsail thrust itself. On the inbound leg that directly opposes your sunward
+fall: real drag. Two consequences:
+
+- The drag is there **whether or not you spin the rotor** — it's the price of
+  being a magnetic sail at all. Because `v_tip` (~1 km/s) ≪ wind (400 km/s),
+  harvesting the kW barely changes the force, so the *power is nearly free*
+  relative to the orbital perturbation you're already paying.
+- That perturbation is **large for a light craft** (~29 km/s over an inbound leg
+  for an 8 t craft; ~2 km/s for 100 t). So a big power bubble doesn't *ride* a
+  cycler ballistically — it **sails**. Either run a small bubble to coast the
+  cycle, or accept that you're an active sail and steer with the bottles
+  (propellant-free). Same knob does power, station-keeping, and orbit changes.
+
 ## Honest limits
 
 - **You skim only a tiny fraction of the wind's energy flux.** Because the tips
