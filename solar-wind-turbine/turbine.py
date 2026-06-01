@@ -115,6 +115,22 @@ def tip_speed_limit(mat, safety=2.0):
 
 
 # --- bottle (field generator) power draw -----------------------------------
+# --- buying bubble size with field power (resistive coil) ------------------
+# Anchor: M2P2 reference, ~3 kW of coil power -> ~15 km bubble radius at 1 AU.
+# Dipole pressure balance gives R ∝ (magnetic moment)^(1/3); a resistive coil's
+# moment ∝ sqrt(power); and R ∝ rho^(-1/6) ∝ r^(1/3). Net: R ∝ P^(1/6) r^(1/3).
+REF_FIELD_POWER_W = 3000.0
+REF_RADIUS_M = 15000.0
+
+def radius_from_field_power(p_field_w, r_au=1.0):
+    """Bubble radius a RESISTIVE coil buys for p_field_w of continuous power."""
+    return REF_RADIUS_M * (p_field_w / REF_FIELD_POWER_W) ** (1/6) * r_au ** (1/3)
+
+def field_power_for_radius(radius_m, r_au=1.0):
+    """Continuous coil power a RESISTIVE coil needs to hold a given bubble (∝ R^6)."""
+    return REF_FIELD_POWER_W * (radius_m / (REF_RADIUS_M * r_au ** (1/3))) ** 6
+
+
 def injection_density():
     """M2P2 reference: ~3 kW for a ~15 km bubble -> power per unit area (W/m^2)."""
     return 3000.0 / (math.pi * 7500.0 ** 2)
@@ -229,6 +245,25 @@ def main():
     be = math.sqrt(P_FIXED / (hd * math.pi))
     print(f"  Superconducting (fixed {P_FIXED/1000:.0f} kW): break-even at "
           f"~{be/1000:.0f} km bubble; bigger = net positive.")
+
+    hr("7.  BUYING A BIGGER BUBBLE WITH FIELD POWER (and why it must be ~free)")
+    print("  You CAN inflate the bubble by dumping power into the coil -- even close")
+    print("  to the Sun against the denser wind. But bubble radius grows only as the")
+    print("  6th ROOT of power (R ∝ P^1/6), so a RESISTIVE coil's field bill explodes")
+    print("  (∝ R^6) and net power craters. Anchored to M2P2 (~3 kW -> ~15 km @1 AU):\n")
+    vt = tip_speed_limit(MATERIALS[2])
+    print(f"  {'field power':>12} {'bubble R':>9} {'force':>8} {'P_ext':>9} {'net (resistive)':>16}")
+    for pf in (1e3, 1e4, 1e5, 1e6, 1e7):
+        R = radius_from_field_power(pf, 1.0)
+        F = CD * ram_pressure(1.0) * math.pi * R ** 2
+        pext = extracted_power(F, vt)
+        print(f"  {kw(pf):>12} {R/1000:>7.0f}km {F:>7.1f}N {kw(pext):>9} {kw(pext-pf):>16}")
+    print("\n  64x the power for 2x the bubble -- a resistive coil is a sucker's game.")
+    print("  The field must be held ~FREE: a SUPERCONDUCTING coil (sustained with no")
+    print("  ongoing power) or the PLASMA MAGNET (the wind inflates it). Then bubble")
+    print("  size is a coil-design/MASS choice (the grid in §3-4), not a power drain --")
+    print("  and you CAN build a big bubble close in; the denser wind just wants a")
+    print("  stronger (heavier) coil, not more watts.")
 
     hr("BOTTOM LINE")
     print("""

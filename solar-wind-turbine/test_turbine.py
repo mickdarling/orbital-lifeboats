@@ -115,6 +115,22 @@ def tip_speed_limit_matches_formula():
 
 # --- net / self-powering ---------------------------------------------------
 @test
+def field_power_buys_radius_as_sixth_root():
+    # doubling the bubble needs 2^6 = 64x the resistive coil power
+    r1 = T.radius_from_field_power(1e3, 1.0)
+    r2 = T.radius_from_field_power(64e3, 1.0)
+    approx(r2 / r1, 2.0, 1e-6, "R ∝ P^(1/6): 64x power -> 2x radius")
+    # round-trip
+    approx(T.field_power_for_radius(T.radius_from_field_power(5e4, 1.0), 1.0),
+           5e4, 1e-6, "field_power<->radius must invert")
+
+@test
+def resistive_field_bill_explodes_as_r6():
+    # holding twice the bubble costs 64x the continuous power
+    approx(T.field_power_for_radius(30_000) / T.field_power_for_radius(15_000),
+           64.0, 1e-6, "resistive field power ∝ R^6")
+
+@test
 def m2p2_injection_cannot_self_power():
     # harvest density must be far below M2P2 injection cost
     rho = T.sw_mass_density(1.0)

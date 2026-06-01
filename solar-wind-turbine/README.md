@@ -96,6 +96,19 @@ maintain):
   area while the bill stays flat → **net positive above a ~30 km bubble.** The
   self-inflation that makes the sail work is what lets it power its own field.
 
+## Buying a bigger bubble with field power
+
+![Field-power tradeoff](figures/png/05_field_power_tradeoff.png)
+
+You can inflate the bubble by dumping power into the coil — even close to the Sun
+against the denser wind. But bubble radius grows only as the **6th root of power**
+(R ∝ P^1/6), so a **resistive** coil's field bill explodes as R⁶ and net power
+craters (64× the power for 2× the bubble). A big bubble only pays if the field is
+held ~free — a **superconducting** coil (no ongoing power) or the wind-inflated
+plasma magnet. Then bubble size is a coil-design / **mass** choice, not a power
+drain, and you can build a big bubble at any distance — the denser inner-system
+wind just wants a stronger (heavier) coil, not more watts.
+
 ## Riding outbound, and on a cycler
 
 ![Outbound tradeoff](figures/png/04_outbound_tradeoff.png)

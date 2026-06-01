@@ -17,6 +17,7 @@ border-radius:8px;padding:14px 18px;margin:1.2em 0}.callout b{color:#1c5a82}
 .tests{background:#eefaf0;border:1px solid #bfe6c9;border-left:5px solid #2e9e54;
 border-radius:8px;padding:10px 16px;margin:1em 0;font-size:14px}
 code{background:#f7f9fb;padding:1px 5px;border-radius:4px;font:13px SFMono-Regular,Menlo,monospace}
+pre code{background:none;color:inherit;padding:0}
 figure{margin:18px 0;border:1px solid #e3e8ee;border-radius:10px;padding:14px;background:#f7f9fb}
 .svgwrap svg{width:100%;height:auto;display:block}
 figcaption{font-size:13px;color:#5b6b7b;margin-top:8px}
@@ -32,7 +33,7 @@ font-size:13px;background:#f7f9fb;margin-top:2em}footer a{color:#2c7fb8;text-dec
 <main>
 <h1>Solar-Wind Turbine — what it actually produces</h1>
 <p class="tagline">Every number is computed by <code>turbine.py</code> on one
-consistent physical model. <span class="tests" style="display:inline-block;padding:2px 8px">✓ 15 physics tests pass</span></p>
+consistent physical model. <span class="tests" style="display:inline-block;padding:2px 8px">✓ 17 physics tests pass</span></p>
 
 <div class="callout"><b>Is it kilowatts or megawatts?</b> Both — it's a <i>grid</i>,
 not a single number. Power = ½·force·tip-speed; force scales with the bubble's
@@ -219,6 +220,64 @@ with distance (force flat, power flat); rigid dipole's force falls as r^−4/3.<
 perfect bottle costs ~0 to maintain. Whether it self-powers depends on the tech:</p>
 <table><thead><tr><th>bottle technology</th><th>bottle power</th><th>harvestable</th><th>verdict</th></tr></thead><tbody><tr><td>M2P2 (inject plasma; cost ∝ bubble)</td><td>17.0 µW/m²</td><td>1.26 µW/m²</td><td>NET NEGATIVE (~13× short)</td></tr><tr><td>Plasma magnet (superconducting; fixed)</td><td>~2 kW</td><td>grows with bubble area</td><td>NET POSITIVE above ~22 km bubble</td></tr></tbody></table>
 
+<h2>Buying a bigger bubble with field power</h2>
+<p>You <i>can</i> inflate the bubble by dumping power into the coil — even close to
+the Sun against the denser wind. But radius grows only as the 6th root of power
+(R ∝ P^1/6), so a <b>resistive</b> coil's field bill explodes as R⁶ and net power
+craters. A big bubble only pays if the field is held ~free — a
+<b>superconducting</b> coil (no ongoing power) or the wind-inflated plasma magnet.
+Then bubble size is a coil-design/<i>mass</i> choice, not a power drain.</p>
+<figure><div class="svgwrap"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="520" viewBox="0 0 820 520">
+<rect width="820" height="520" fill="#fafafa"/>
+<rect x="70.0" y="60.0" width="720.0" height="390.0" fill="#fff" stroke="#ccc" stroke-width="1"/>
+<line x1="169.3" y1="60.0" x2="169.3" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="169.3" y1="450.0" x2="169.3" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="169.3" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">25</text>
+<line x1="293.4" y1="60.0" x2="293.4" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="293.4" y1="450.0" x2="293.4" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="293.4" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">50</text>
+<line x1="417.6" y1="60.0" x2="417.6" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="417.6" y1="450.0" x2="417.6" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="417.6" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">75</text>
+<line x1="541.7" y1="60.0" x2="541.7" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="541.7" y1="450.0" x2="541.7" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="541.7" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">100</text>
+<line x1="665.9" y1="60.0" x2="665.9" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="665.9" y1="450.0" x2="665.9" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="665.9" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">125</text>
+<line x1="790.0" y1="60.0" x2="790.0" y2="450.0" stroke="#eee" stroke-width="1"/>
+<line x1="790.0" y1="450.0" x2="790.0" y2="455.0" stroke="#888" stroke-width="1"/>
+<text x="790.0" y="468.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">150</text>
+<line x1="70.0" y1="432.3" x2="790.0" y2="432.3" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="432.3" x2="70.0" y2="432.3" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="436.3" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">-50</text>
+<line x1="70.0" y1="343.6" x2="790.0" y2="343.6" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="343.6" x2="70.0" y2="343.6" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="347.6" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">0</text>
+<line x1="70.0" y1="255.0" x2="790.0" y2="255.0" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="255.0" x2="70.0" y2="255.0" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="259.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">50</text>
+<line x1="70.0" y1="166.4" x2="790.0" y2="166.4" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="166.4" x2="70.0" y2="166.4" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="170.4" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">100</text>
+<line x1="70.0" y1="77.7" x2="790.0" y2="77.7" stroke="#eee" stroke-width="1"/>
+<line x1="65.0" y1="77.7" x2="70.0" y2="77.7" stroke="#888" stroke-width="1"/>
+<text x="61.0" y="81.7" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="end" fill="#222" font-weight="normal">150</text>
+<line x1="70.0" y1="343.6" x2="790.0" y2="343.6" stroke="#888" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="76.0" y="339.6" font-size="10" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#888" font-weight="normal">break-even</text>
+<polyline points="70.0,343.5 94.8,343.4 119.7,347.4 144.5,370.7 169.3,453.3 194.1,677.7 219.0,1193.4 243.8,2244.9 268.6,4206.5 293.4,7621.4 318.3,13246.4 343.1,22101.9 367.9,35526.6 392.8,55238.8 417.6,83401.1 442.4,122691.8 467.2,176381.1 492.1,248412.4 516.9,343488.7 541.7,467165.2 566.6,625945.7 591.4,827385.5 616.2,1080199.2 641.0,1394372.9 665.9,1781283.2 690.7,2253820.3 715.5,2826516.7 740.3,3515680.8 765.2,4339536.9 790.0,5318368.9" fill="none" stroke="#2c7fb8" stroke-width="2.2"/>
+<polyline points="70.0,347.0 94.8,346.5 119.7,345.6 144.5,344.4 169.3,342.8 194.1,340.9 219.0,338.7 243.8,336.0 268.6,333.1 293.4,329.8 318.3,326.1 343.1,322.1 367.9,317.8 392.8,313.1 417.6,308.0 442.4,302.6 467.2,296.9 492.1,290.8 516.9,284.4 541.7,277.6 566.6,270.5 591.4,263.0 616.2,255.1 641.0,247.0 665.9,238.4 690.7,229.6 715.5,220.3 740.3,210.8 765.2,200.9 790.0,190.6" fill="none" stroke="#d95f02" stroke-width="2.2"/>
+<text x="430.0" y="48.0" font-size="16" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="bold">Net power vs bubble size: how you pay to inflate it</text>
+<text x="430.0" y="504.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal">bubble radius at 1 AU (km)</text>
+<text x="18.0" y="255.0" font-size="13" font-family="Helvetica,Arial,sans-serif" text-anchor="middle" fill="#222" font-weight="normal" transform="rotate(-90 18 255.0)">net power (kW)</text>
+<rect x="632.0" y="58.0" width="158.0" height="44.0" fill="#ffffffcc" stroke="#ddd" stroke-width="1"/>
+<line x1="640.0" y1="72.0" x2="662.0" y2="72.0" stroke="#2c7fb8" stroke-width="3"/>
+<text x="668.0" y="76.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">resistive coil (field bill ∝ R⁶)</text>
+<line x1="640.0" y1="90.0" x2="662.0" y2="90.0" stroke="#d95f02" stroke-width="3"/>
+<text x="668.0" y="94.0" font-size="11" font-family="Helvetica,Arial,sans-serif" text-anchor="start" fill="#222" font-weight="normal">superconducting (field held ~free)</text>
+</svg>
+</div><figcaption>Resistive coil craters as you scale the bubble (field bill ∝ R⁶); superconducting scales as R². Big bubbles need a free-field coil.</figcaption></figure>
+
 <h2>Riding outbound — efficiency up, absolute power down</h2>
 <figure><div class="svgwrap"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="520" viewBox="0 0 820 520">
 <rect width="820" height="520" fill="#fafafa"/>
@@ -315,11 +374,13 @@ perfect bottle costs ~0 to maintain. Whether it self-powers depends on the tech:
   PASS  drag_cp_peaks_at_one_third
   PASS  drag_cp_zero_when_tip_matches_wind
   PASS  tip_speed_limit_matches_formula
+  PASS  field_power_buys_radius_as_sixth_root
+  PASS  resistive_field_bill_explodes_as_r6
   PASS  m2p2_injection_cannot_self_power
   PASS  superconducting_net_goes_positive_above_breakeven
   PASS  net_power_flat_with_distance_for_plasma_magnet
 
-15 passed, 0 failed
+17 passed, 0 failed
 </pre>
 
 <h2>Full model run (raw <code>turbine.py</code> output)</h2>
@@ -418,6 +479,28 @@ Run the model:  python3 turbine.py      Validate the physics:  python3 test_turb
   Superconducting (fixed 2 kW): break-even at ~22 km bubble; bigger = net positive.
 
 ==========================================================================
+7.  BUYING A BIGGER BUBBLE WITH FIELD POWER (and why it must be ~free)
+==========================================================================
+  You CAN inflate the bubble by dumping power into the coil -- even close
+  to the Sun against the denser wind. But bubble radius grows only as the
+  6th ROOT of power (R ∝ P^1/6), so a RESISTIVE coil&#x27;s field bill explodes
+  (∝ R^6) and net power craters. Anchored to M2P2 (~3 kW -&gt; ~15 km @1 AU):
+
+   field power  bubble R    force     P_ext  net (resistive)
+        1.0 kW      12km     0.7N    0.6 kW          -0.4 kW
+       10.0 kW      18km     1.4N    1.3 kW          -8.7 kW
+      100.0 kW      27km     3.0N    2.8 kW         -97.2 kW
+       1.00 MW      39km     6.6N    6.1 kW        -993.9 kW
+      10.00 MW      58km    14.1N   13.2 kW         -9.99 MW
+
+  64x the power for 2x the bubble -- a resistive coil is a sucker&#x27;s game.
+  The field must be held ~FREE: a SUPERCONDUCTING coil (sustained with no
+  ongoing power) or the PLASMA MAGNET (the wind inflates it). Then bubble
+  size is a coil-design/MASS choice (the grid in §3-4), not a power drain --
+  and you CAN build a big bubble close in; the denser wind just wants a
+  stronger (heavier) coil, not more watts.
+
+==========================================================================
 BOTTOM LINE
 ==========================================================================
 
@@ -460,6 +543,8 @@ derived: at distance r → bubble radius R(r) and force F(r) (per sail model)
 <h2>Net, and can it power its own bottles?</h2>
 <p>Net = extracted − bottle. The make-or-break question (not free energy — the wind pays; and ideal magnetic deflection does no work, so a perfect bottle costs ~0 to maintain):</p>
 <ul><li><strong>M2P2 (inject plasma; cost scales with bubble):</strong> harvest ~0.7 µW/m² vs injection ~17 µW/m² → ~25× short, <strong>net negative</strong>. Can&#x27;t self-power.</li><li><strong>Plasma magnet (superconducting; ~fixed power):</strong> harvest grows with bubble area while the bill stays flat → <strong>net positive above a ~30 km bubble.</strong> The self-inflation that makes the sail work is what lets it power its own field.</li></ul>
+<h2>Buying a bigger bubble with field power</h2>
+<p>You can inflate the bubble by dumping power into the coil — even close to the Sun against the denser wind. But bubble radius grows only as the <strong>6th root of power</strong> (R ∝ P^1/6), so a <strong>resistive</strong> coil&#x27;s field bill explodes as R⁶ and net power craters (64× the power for 2× the bubble). A big bubble only pays if the field is held ~free — a <strong>superconducting</strong> coil (no ongoing power) or the wind-inflated plasma magnet. Then bubble size is a coil-design / <strong>mass</strong> choice, not a power drain, and you can build a big bubble at any distance — the denser inner-system wind just wants a stronger (heavier) coil, not more watts.</p>
 <h2>Riding outbound, and on a cycler</h2>
 <p>If it sails outbound, the <em>relative</em> wind drops toward the tip speed, so drag- turbine efficiency climbs toward its λ=1/3 optimum — but absolute power falls as v_rel³. <strong>A power station wants max relative wind → stay put.</strong> On an Earth–Mars cycler the ~30 km/s orbital motion barely dents the 400 km/s wind (±1.4%), so power is essentially the at-rest value across the leg. And extracting it <strong>acts as drag</strong> — momentum theory requires a downwind (anti-sunward) reaction force; that force is the magsail thrust, present whether or not you spin the rotor.</p>
 <h2>Honest value (the reality check)</h2>

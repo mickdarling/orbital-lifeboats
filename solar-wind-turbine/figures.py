@@ -85,9 +85,29 @@ def f_outbound():
         ylabel="fraction of maximum", ylim=(0, 1.05))
 
 
+def f_field_power():
+    """How you pay for bubble size: resistive (∝R^6, craters) vs superconducting."""
+    vt = T.tip_speed_limit(T.MATERIALS[2])
+    Rs_km = list(range(5, 151, 5))
+    def pext(R):
+        return T.extracted_power(T.CD * T.ram_pressure(1.0) * math.pi * R**2, vt)
+    resistive = [(pext(rk*1000) - T.field_power_for_radius(rk*1000)) / 1000
+                 for rk in Rs_km]
+    sc = [(pext(rk*1000) - 2000) / 1000 for rk in Rs_km]
+    svgplot.line_chart(
+        os.path.join(OUT, "05_field_power_tradeoff.svg"),
+        [{"name": "resistive coil (field bill ∝ R⁶)", "xs": Rs_km, "ys": resistive},
+         {"name": "superconducting (field held ~free)", "xs": Rs_km, "ys": sc}],
+        title="Net power vs bubble size: how you pay to inflate it",
+        xlabel="bubble radius at 1 AU (km)", ylabel="net power (kW)",
+        ylim=(-60, 160),
+        hlines=[{"y": 0, "label": "break-even", "color": "#888"}])
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
-    for fn in (f_net_power_grid, f_power_vs_distance, f_material_limits, f_outbound):
+    for fn in (f_net_power_grid, f_power_vs_distance, f_material_limits, f_outbound,
+               f_field_power):
         fn()
         print(f"  wrote {fn.__name__}")
     print(f"figures in {OUT}/")

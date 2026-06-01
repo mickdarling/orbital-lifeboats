@@ -56,6 +56,7 @@ border-radius:8px;padding:14px 18px;margin:1.2em 0}.callout b{color:#1c5a82}
 .tests{background:#eefaf0;border:1px solid #bfe6c9;border-left:5px solid #2e9e54;
 border-radius:8px;padding:10px 16px;margin:1em 0;font-size:14px}
 code{background:#f7f9fb;padding:1px 5px;border-radius:4px;font:13px SFMono-Regular,Menlo,monospace}
+pre code{background:none;color:inherit;padding:0}
 figure{margin:18px 0;border:1px solid #e3e8ee;border-radius:10px;padding:14px;background:#f7f9fb}
 .svgwrap svg{width:100%;height:auto;display:block}
 figcaption{font-size:13px;color:#5b6b7b;margin-top:8px}
@@ -165,6 +166,15 @@ with distance (force flat, power flat); rigid dipole's force falls as r^−4/3.<
 <p>Not free energy (wind pays); ideal magnetic deflection does no work, so a
 perfect bottle costs ~0 to maintain. Whether it self-powers depends on the tech:</p>
 {table(["bottle technology", "bottle power", "harvestable", "verdict"], self_rows)}
+
+<h2>Buying a bigger bubble with field power</h2>
+<p>You <i>can</i> inflate the bubble by dumping power into the coil — even close to
+the Sun against the denser wind. But radius grows only as the 6th root of power
+(R ∝ P^1/6), so a <b>resistive</b> coil's field bill explodes as R⁶ and net power
+craters. A big bubble only pays if the field is held ~free — a
+<b>superconducting</b> coil (no ongoing power) or the wind-inflated plasma magnet.
+Then bubble size is a coil-design/<i>mass</i> choice, not a power drain.</p>
+{fig("05_field_power_tradeoff.svg", "Resistive coil craters as you scale the bubble (field bill ∝ R⁶); superconducting scales as R². Big bubbles need a free-field coil.")}
 
 <h2>Riding outbound — efficiency up, absolute power down</h2>
 {fig("04_outbound_tradeoff.svg", "Sailing out: efficiency climbs toward λ=1/3, absolute power collapses as v_rel³.")}
