@@ -139,6 +139,31 @@ def m2p2_injection_cannot_self_power():
         "M2P2 injection should dwarf harvestable density"
 
 @test
+def resistive_coil_has_an_optimal_radius():
+    vt = T.tip_speed_limit(T.MATERIALS[2])
+    ropt = T.optimal_radius_resistive(1.0, vt)
+    def net(R):
+        F = T.CD * T.ram_pressure(1.0) * math.pi * R ** 2
+        return T.extracted_power(F, vt) - T.field_power_for_radius(R, 1.0)
+    assert net(ropt) > net(ropt * 0.6) and net(ropt) > net(ropt * 1.4), \
+        "R_opt must be a local maximum of net power"
+
+@test
+def resistive_optimal_radius_is_distance_independent():
+    vt = T.tip_speed_limit(T.MATERIALS[2])
+    approx(T.optimal_radius_resistive(1.0, vt),
+           T.optimal_radius_resistive(10.0, vt), 1e-9,
+           "R_opt should be the same at every distance")
+
+@test
+def superconducting_net_grows_monotonically_with_bubble():
+    # no interior optimum: bigger is always better above break-even
+    vt = T.tip_speed_limit(T.MATERIALS[2])
+    nets = [T.net_power(T.Sail(r * 1000), vt, 1.0, "superconducting") for r in (50, 100, 200, 400)]
+    assert all(nets[i] < nets[i + 1] for i in range(len(nets) - 1)), \
+        "superconducting net must increase monotonically with bubble size"
+
+@test
 def superconducting_net_goes_positive_above_breakeven():
     vt = T.tip_speed_limit(T.MATERIALS[2])
     rho = T.sw_mass_density(1.0)

@@ -104,10 +104,28 @@ def f_field_power():
         hlines=[{"y": 0, "label": "break-even", "color": "#888"}])
 
 
+def f_optimal_size():
+    vt = T.tip_speed_limit(T.MATERIALS[2])
+    Rs_km = [r * 0.5 for r in range(6, 29)]            # 3 .. 14 km
+    def net_res(R):
+        F = T.CD * T.ram_pressure(1.0) * math.pi * R ** 2
+        return T.extracted_power(F, vt) - T.field_power_for_radius(R, 1.0)
+    ys = [net_res(rk * 1000) for rk in Rs_km]
+    ropt = T.optimal_radius_resistive(1.0, vt) / 1000
+    svgplot.line_chart(
+        os.path.join(OUT, "06_optimal_size.svg"),
+        [{"name": "net power (resistive coil, 1 AU)", "xs": Rs_km, "ys": ys}],
+        title="Optimal bubble size (resistive coil): net peaks, then craters",
+        xlabel="bubble radius at 1 AU (km)", ylabel="net power (W)",
+        ylim=(-1500, 300), markers=True,
+        vlines=[{"x": ropt, "label": f"optimum ~{ropt:.0f} km", "color": "#c0392b"}],
+        hlines=[{"y": 0, "label": "break-even", "color": "#888"}])
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     for fn in (f_net_power_grid, f_power_vs_distance, f_material_limits, f_outbound,
-               f_field_power):
+               f_field_power, f_optimal_size):
         fn()
         print(f"  wrote {fn.__name__}")
     print(f"figures in {OUT}/")

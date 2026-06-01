@@ -131,6 +131,16 @@ def field_power_for_radius(radius_m, r_au=1.0):
     return REF_FIELD_POWER_W * (radius_m / (REF_RADIUS_M * r_au ** (1/3))) ** 6
 
 
+def optimal_radius_resistive(r_au, v_tip):
+    """Bubble radius that MAXIMIZES net power for a resistive coil, where harvest
+    ∝ R^2 but the field bill ∝ R^6.  net = C R^2 - k R^6 -> R_opt = (C/3k)^(1/4).
+    (Constant with distance; net_max falls as 1/r^2. No interior optimum exists
+    for a superconducting coil, whose field cost is fixed -> net just grows ∝ R^2.)"""
+    C = 0.5 * CD * ram_pressure(r_au) * math.pi * v_tip
+    k = REF_FIELD_POWER_W / (REF_RADIUS_M ** 6 * r_au ** 2)
+    return (C / (3 * k)) ** 0.25
+
+
 def injection_density():
     """M2P2 reference: ~3 kW for a ~15 km bubble -> power per unit area (W/m^2)."""
     return 3000.0 / (math.pi * 7500.0 ** 2)
@@ -264,6 +274,23 @@ def main():
     print("  size is a coil-design/MASS choice (the grid in §3-4), not a power drain --")
     print("  and you CAN build a big bubble close in; the denser wind just wants a")
     print("  stronger (heavier) coil, not more watts.")
+
+    hr("8.  IS THERE AN OPTIMAL BUBBLE SIZE?")
+    print("  Pure extraction: NO -- power ∝ area, so bigger is always more. An")
+    print("  optimum appears only when the COST of size grows faster than the harvest.")
+    print("  With a RESISTIVE coil (field bill ∝ R^6) net peaks then craters:\n")
+    vt = tip_speed_limit(MATERIALS[2])
+    for r in (1, 3, 10):
+        ropt = optimal_radius_resistive(r, vt)
+        F = CD * ram_pressure(r) * math.pi * ropt ** 2
+        netmax = extracted_power(F, vt) - field_power_for_radius(ropt, r)
+        print(f"    resistive @ {r:>2} AU: optimal R ~ {ropt/1000:4.1f} km, "
+              f"net_max ~ {netmax:.0f} W")
+    print("\n  -> SAME optimal radius at every distance; peak height falls as 1/r^2,")
+    print("     and it's tiny -- which is the real lesson: resistive is a dead end.")
+    print("  For a SUPERCONDUCTING coil (fixed field cost) there is NO interior")
+    print("  optimum -- net grows as R^2 until cable structure / coil mass cap it.")
+    print("  So 'best size' = the biggest bubble you can structurally build.")
 
     hr("BOTTOM LINE")
     print("""

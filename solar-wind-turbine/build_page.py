@@ -141,11 +141,28 @@ def build():
 <p class="tagline">Every number is computed by <code>turbine.py</code> on one
 consistent physical model. <span class="tests" style="display:inline-block;padding:2px 8px">{test_banner}</span></p>
 
-<div class="callout"><b>Is it kilowatts or megawatts?</b> Both — it's a <i>grid</i>,
-not a single number. Power = ½·force·tip-speed; force scales with the bubble's
-area, tip-speed with the cable material. Small bubble + weak cable → kW; big
-bubble + strong cable → MW. The tables below are the whole answer, and the
-distance behavior depends on which sail model you pick.</div>
+<p>The <b>solar-wind turbine</b> is a magnetic sail rigged as a windmill. Long
+counter-rotating cables carry switchable magnetic "bottles" at their tips; the
+bottles deflect the solar wind, and by firing them as a force <i>couple</i> the
+wind spins the whole rig around a central generator — turning the wind's momentum
+into electricity without pushing the craft out of its orbit.</p>
+
+<p><b>TL;DR — what sets the size, mass, and power.</b> Three choices drive
+everything below:</p>
+<ul>
+<li><b>Field-generator tech (the big one).</b> The magnetic bottle must be
+<b>superconducting</b> (or a wind-inflated plasma magnet) so holding the bubble is
+nearly free. A resistive coil's field bill grows as R⁶ and loses outright.</li>
+<li><b>Cable material.</b> Sets the tip speed via the spinning-tether limit
+√(2·specific-strength) — carbon fiber ~1.9 km/s, theoretical CNT ~6.7 km/s — and
+power scales directly with tip speed.</li>
+<li><b>Cable length.</b> Longer cables reach a target tip speed at a gentler spin
+(easier to toggle the bottles, lower per-tip load), paid for in cable mass.</li>
+</ul>
+<p>Net of all that: with a superconducting coil and carbon-fiber cables a useful
+unit is tens to a few hundred kW, and a several-hundred-km bubble reaches the MW
+range. It's a <b>sail first</b>, with power as the bonus. And power isn't one
+number — it's a grid over bubble size × tip speed, below.</p>
 
 <h2>Extracted power — material × bubble size (plasma magnet, 1 AU)</h2>
 {table(hdr, grid_rows(net=False))}
@@ -175,6 +192,18 @@ craters. A big bubble only pays if the field is held ~free — a
 <b>superconducting</b> coil (no ongoing power) or the wind-inflated plasma magnet.
 Then bubble size is a coil-design/<i>mass</i> choice, not a power drain.</p>
 {fig("05_field_power_tradeoff.svg", "Resistive coil craters as you scale the bubble (field bill ∝ R⁶); superconducting scales as R². Big bubbles need a free-field coil.")}
+
+<h2>Is there an optimal bubble size?</h2>
+<p>For pure extraction, <b>no</b> — power grows with bubble area, so bigger is
+always more. An optimum appears only when the <i>cost</i> of size grows faster
+than the harvest. With a <b>resistive</b> coil the field bill scales as R⁶, so net
+power peaks at a small bubble (~8 km at 1 AU) then craters — but that peak is tiny
+(~0.2 kW), which is exactly why resistive is a dead end. The optimal radius is the
+<b>same at every distance</b>; only its height falls (as 1/r²). With a
+<b>superconducting</b> coil (fixed field cost) there is <b>no interior optimum</b>
+— net grows as R² until cable structure and coil mass cap it, so the practical
+"best size" is the biggest bubble you can build.</p>
+{fig("06_optimal_size.svg", "Resistive coil: net peaks at ~8 km then craters (field bill ∝ R⁶). Same optimum radius at any distance; height ∝ 1/r². Superconducting has no such peak.")}
 
 <h2>Riding outbound — efficiency up, absolute power down</h2>
 {fig("04_outbound_tradeoff.svg", "Sailing out: efficiency climbs toward λ=1/3, absolute power collapses as v_rel³.")}

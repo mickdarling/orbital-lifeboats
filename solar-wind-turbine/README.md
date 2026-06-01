@@ -20,6 +20,22 @@ wind without being blown out of orbit.
 
 ---
 
+## TL;DR — what sets size, mass, and power
+
+Three choices drive the whole design (and inform everything below):
+
+- **Field-generator tech (the big one):** must be **superconducting** (or a
+  wind-inflated plasma magnet) so holding the bubble is ~free; a resistive coil's
+  field bill grows as R⁶ and loses outright.
+- **Cable material:** sets the tip speed via √(2·specific-strength) — carbon fiber
+  ~1.9 km/s, theoretical CNT ~6.7 km/s — and power scales with tip speed.
+- **Cable length:** longer cables reach a target tip speed at a gentler spin
+  (easier bottle toggling, lower per-tip load), paid for in cable mass.
+
+A useful unit (superconducting coil + carbon-fiber cables) is **tens to a few
+hundred kW**; a several-hundred-km bubble reaches the **MW** range. It's a **sail
+first**, power as the bonus.
+
 ## The machine
 
 Vertical-axis turbine in solar orbit: spin axis north–south, generator at the hub,
@@ -108,6 +124,18 @@ held ~free — a **superconducting** coil (no ongoing power) or the wind-inflate
 plasma magnet. Then bubble size is a coil-design / **mass** choice, not a power
 drain, and you can build a big bubble at any distance — the denser inner-system
 wind just wants a stronger (heavier) coil, not more watts.
+
+## Is there an optimal bubble size?
+
+For pure extraction, no — power grows with bubble area, so bigger is always more.
+An optimum appears only when the *cost* of size grows faster than the harvest. A
+**resistive** coil's field bill ∝ R⁶ gives a sharp peak at a small bubble (~8 km
+at 1 AU, ~0.2 kW); the optimum radius is the **same at every distance** with
+height ∝ 1/r² — which mainly shows resistive is a dead end. A **superconducting**
+coil (fixed field cost) has **no interior optimum** — net grows as R² until cable
+structure and coil mass cap it, so "best size" = the biggest bubble you can build.
+
+![Optimal size](figures/png/06_optimal_size.png)
 
 ## Riding outbound, and on a cycler
 
