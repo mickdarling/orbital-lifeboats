@@ -358,6 +358,49 @@ def main():
     Same knob: dial the bubbles for power, station-keeping, or orbit changes.
 """)
 
+    hr("9.  CAN THE SPIN POWER ITS OWN BOTTLES?  (the make-or-break question)")
+    print("  NOT a free-energy question -- the wind is the source, so net-positive")
+    print("  is allowed. And the ideal magnetic deflection does NO work on the wind")
+    print("  (magnetic force is perpendicular to velocity), so a perfect bottle costs")
+    print("  ~0 to MAINTAIN. The bottle's real power is pure LOSS, and which losses")
+    print("  dominate depends entirely on the technology:\n")
+
+    rho = sw_mass_density(t.ref_au)
+    harvest_density = CAPTURE * CD * rho * V_SW**2 * t.tip_speed_ms   # W/m^2
+    area = math.pi * t.bubble_radius_m**2
+    p_gen = harvest_density * area
+
+    # (a) M2P2-style: bottle power scales with bubble (continuous plasma injection)
+    ref_R, ref_P = 7500.0, 3000.0    # ~15 km bubble, ~3 kW  (M2P2 ballpark)
+    inj_density = ref_P / (math.pi * ref_R**2)
+    print("  (a) M2P2 (continuous plasma INJECTION -> power scales with bubble):")
+    print(f"      harvestable: {harvest_density*1e6:.2f} uW/m^2   "
+          f"injection cost: {inj_density*1e6:.2f} uW/m^2")
+    print(f"      cost is ~{inj_density/harvest_density:.0f}x the harvest -> "
+          f"NET NEGATIVE. You'd need v_tip ~{t.tip_speed_ms*inj_density/harvest_density/1000:.0f} km/s")
+    print(f"      (way past the material limit) to break even. M2P2 can't self-power.")
+
+    # (b) plasma magnet: superconducting coils, wind-inflated -> ~fixed power
+    p_fixed = 2000.0    # kW-class coil + cryocooler, ~independent of bubble size
+    breakeven_R = math.sqrt(p_fixed / (harvest_density * math.pi))
+    print("\n  (b) Plasma magnet (SUPERCONDUCTING coils, bubble inflated by the wind")
+    print("      itself -> maintenance power ~FIXED, doesn't grow with the bubble):")
+    print(f"      fixed bottle power ~{p_fixed/1000:.0f} kW; harvest grows as bubble AREA,")
+    print(f"      so break-even at a ~{breakeven_R/1000:.0f} km bubble -- bigger = net positive.")
+    print(f"      At the {t.bubble_radius_m/1000:.0f} km design point: gen {p_gen/1000:.1f} kW "
+          f"vs ~{p_fixed/1000:.0f} kW bottle -> "
+          f"{'NET POSITIVE' if p_gen > p_fixed else 'roughly break-even'}.")
+
+    print("""
+  So the answer: with naive M2P2 (inject plasma to hold the bubble) the spin
+  does NOT cover the bottle -- you spend ~25x more holding the bubble than the
+  slow tips can harvest. But the PLASMA MAGNET decouples bubble size from power
+  draw (the solar wind inflates it for free), so maintenance is ~fixed coil power
+  while harvest grows with bubble area -> above a ~30-50 km bubble it goes net
+  positive. The very self-scaling that makes the sail work is also what lets it
+  power its own field. (Loss numbers here are rough -- this is THE thing to pin
+  down with a real device-power model.)""")
+
     hr("BOTTOM LINE")
     print("""
   * Tip speed is capped by the CABLE (spinning-tether limit), not the wind:

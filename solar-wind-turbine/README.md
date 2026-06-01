@@ -110,6 +110,29 @@ fall: real drag. Two consequences:
   cycle, or accept that you're an active sail and steer with the bottles
   (propellant-free). Same knob does power, station-keeping, and orbit changes.
 
+## Can the spin power its own bottles? (the make-or-break question)
+
+Not a free-energy question — the **wind** is the source, so net-positive is
+allowed. And ideal magnetic deflection does *no work* on the wind (the magnetic
+force is ⊥ to velocity), so a perfect bottle costs ~0 to *maintain*; its real
+power draw is pure loss. Whether the spin covers it depends entirely on the tech:
+
+- **M2P2 (continuous plasma injection):** bottle power scales with bubble size.
+  Harvestable density (~0.67 µW/m²) is ~**25× less** than the injection cost
+  (~17 µW/m²) — you'd need 25 km/s tips (past any material) to break even. **It
+  can't self-power.** The slow tips are the killer.
+- **Plasma magnet (superconducting coils, bubble inflated by the wind itself):**
+  maintenance power is ~**fixed** (coil + cryocooler), while harvest grows with
+  bubble *area*. So there's a break-even bubble size (~30–50 km for a ~2 kW coil)
+  above which it goes **net positive** — at the 50 km design point, ~5.3 kW
+  generated vs ~2 kW bottle.
+
+So your instinct was right for the naive version, but the **plasma magnet's
+self-inflation is exactly what flips it positive**: the same trick that lets the
+sail work (the wind grows the bubble for free) is what lets it power its own
+field — you scale the harvest without scaling the power bill. (The loss numbers
+are rough; a real device-power model is the key thing still missing.)
+
 ## Honest limits
 
 - **You skim only a tiny fraction of the wind's energy flux.** Because the tips
