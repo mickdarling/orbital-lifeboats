@@ -1,0 +1,23 @@
+{
+  "title": "Orbital Lifeboats: Napkin Math for a Solar-System Emergency-Cache and Rescue Network",
+  "upload_type": "publication",
+  "publication_type": "workingpaper",
+  "description": "<p>An engineering-constraints exploration of pre-positioned emergency resource caches across the solar system — the WWII English Channel rescue buoy reimagined for spaceflight. The central reframing: in orbit, rescue distance is measured in delta-v, not meters; a stranded spacecraft is a ballistic object locked on its conic, not a swimmer. The repository contains the working paper, Python models for reachability and cache-placement napkin math, and generated figures. Explicitly exploratory: big-number napkin math, not a mission proposal. Text and figures are licensed CC BY 4.0; code is licensed MIT.</p>",
+  "creators": [
+    {
+      "name": "Darling, Mick",
+      "orcid": "0009-0008-7116-1393",
+      "affiliation": "Dollhouse Research"
+    }
+  ],
+  "license": "cc-by-4.0",
+  "keywords": [
+    "space systems",
+    "orbital mechanics",
+    "delta-v",
+    "space rescue",
+    "emergency caches",
+    "mission design",
+    "napkin math"
+  ]
+}
