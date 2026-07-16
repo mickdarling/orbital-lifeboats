@@ -3,6 +3,8 @@
 *Napkin math for a network of emergency resource caches across the solar system —
 the WWII English Channel rescue buoy, reimagined for spaceflight.*
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21398972.svg)](https://doi.org/10.5281/zenodo.21398972)
+
 ---
 
 ## The seed idea
